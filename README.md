@@ -1,2 +1,2 @@
 # Blindfold-chess
-Local two player blindfold chess for Android (under development)
+Local two player blindfold speed chess for Android (under development)
