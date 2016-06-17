@@ -15,6 +15,8 @@ While neither player resigned and reset not pressed
 
    Stop the timer
    Make the move
+   if opponent now in check
+       announce the check
    Start the other player timer
 }
    
@@ -34,6 +36,17 @@ Check if valid move{
 
 Create list of possible destinations{
 
+    for each jumpmove in potential moves
+        if move on board and own piece not in space
+            add destination
+    for each rangemove in potential moves
+        initialize distance to 1
+        while True
+            if move not on board break
+            if own piece in space break
+            add destination
+            if opponent piece in space break
+            
     
     if king 
         if castle conditions are valid
@@ -44,6 +57,19 @@ Create list of possible destinations{
            add en passant destination
             
 }   
+
+------------
+
+Make the move{
+    if there is an opponent at the destination
+        remove the piece
+    move the piece to new location
+    if pawn
+        if at end of board promote
+    if king
+        if moved 2 castle    
+    
+}
    
 
 """
