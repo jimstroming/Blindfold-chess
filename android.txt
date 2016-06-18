@@ -1,0 +1,3 @@
+title=Blind Chess
+author=Jim Stroming
+orientation=landscape
