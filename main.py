@@ -7,6 +7,11 @@ from kivy.graphics import Color, Ellipse, Line
 
 class BlindChessWidget(Widget):
 
+    def drawboard(self):
+        color = (1,1,1)  # set color to white
+        with self.canvas:
+            Color(*color, mode='hsv')
+
     def on_touch_down(self, touch):
         color = (random(), 1, 1)
         with self.canvas:
@@ -24,10 +29,10 @@ class BlindChessApp(App):
     def build(self):
         parent = Widget()
         self.painter = BlindChessWidget()
-        clearbtn = Button(text='Clear')
-        clearbtn.bind(on_release=self.clear_canvas)
+        startbtn = Button(text='Start')
+        startbtn.bind(on_release=self.clear_canvas)
         parent.add_widget(self.painter)
-        parent.add_widget(clearbtn)
+        parent.add_widget(startbtn)
         return parent
 
     def clear_canvas(self, obj):
