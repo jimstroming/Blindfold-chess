@@ -30,7 +30,7 @@ class BlindChessApp(App):
         parent = Widget()
         self.painter = BlindChessWidget()
         startbtn = Button(text='Start')
-        startbtn.bind(on_release=self.clear_canvas)
+        startbtn.bind(on_release=self.draw_board)
         parent.add_widget(self.painter)
         parent.add_widget(startbtn)
         return parent
