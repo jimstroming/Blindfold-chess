@@ -11,6 +11,10 @@ class BlindChessWidget(Widget):
         color = (1,1,1)  # set color to white
         with self.canvas:
             Color(*color, mode='hsv')
+            displaywidth = 400
+            squarewidth = int(displaywidth/8)
+            d = 30.
+            Ellipse(pos=(100, 100), size=(d, d))
 
     def on_touch_down(self, touch):
         color = (random(), 1, 1)
