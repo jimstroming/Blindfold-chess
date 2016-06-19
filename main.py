@@ -15,7 +15,9 @@ class BlindChessWidget(Widget):
             bottomboard = 200
             squarewidth = int(displaywidth/8)
             d = squarewidth
-            Rectangle(pos=(0,bottomboard), size=(d, d))
+            for x in range(0,8):
+                for y in range(0,8):
+                    Rectangle(pos=(x*d, bottomboard+y*d), size=(d, d))
 
     def on_touch_down(self, touch):
         color = (random(), 1, 1)
