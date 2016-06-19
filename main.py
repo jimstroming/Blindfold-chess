@@ -37,6 +37,9 @@ class BlindChessApp(App):
 
     def clear_canvas(self, obj):
         self.painter.canvas.clear()
+        
+    def draw_board(self, obj):
+        self.painter.drawboard()
 
 
 if __name__ == '__main__':
