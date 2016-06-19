@@ -2,7 +2,7 @@ from random import random
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-from kivy.graphics import Color, Ellipse, Line
+from kivy.graphics import Color, Ellipse, Rectangle, Line
 
 
 class BlindChessWidget(Widget):
@@ -15,7 +15,7 @@ class BlindChessWidget(Widget):
             bottomboard = 200
             squarewidth = int(displaywidth/8)
             d = squarewidth
-            Ellipse(pos=(0,bottomboard), size=(d, d))
+            Rectangle(pos=(0,bottomboard), size=(d, d))
 
     def on_touch_down(self, touch):
         color = (random(), 1, 1)
