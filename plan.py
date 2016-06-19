@@ -34,27 +34,27 @@ Check if valid move{
    
 ------
 
-Create list of possible destinations{
+Check if move in list of possible destinations{
 
     for each jumpmove in potential moves
         if move on board and own piece not in space
-            add destination
+            check destination
     for each rangemove in potential moves
         initialize distance to 1
         while True
             if move not on board break
             if own piece in space break
-            add destination
+            check destination
             if opponent piece in space break
             
     
     if king 
         if castle conditions are valid
-            add castle destinations
+            check castle destinations
     if piece is pawn
         if pawn has not moved add 2 distance destinations
         if opponent last move was neighboring pawn
-           add en passant destination
+           check en passant destination
             
 }   
 

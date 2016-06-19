@@ -3,7 +3,6 @@ import pdb
 class Chessboard(object):
    
    def __init__(self):
-       self.tangerine = "And now a thousand years between"
        firstrow = ['WR','WN','WB','WQ','WK','WB','WN','WR']
        wpawnrow = ['WP','WP','WP','WP','WP','WP','WP','WP']
        blankrow = ['00','00','00','00','00','00','00','00']       
