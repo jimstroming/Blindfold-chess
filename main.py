@@ -10,7 +10,7 @@ class BlindChessWidget(Widget):
     def drawboard(self):
         color = (1,1,1)  # set color to white
         with self.canvas:
-            Color(*color, mode='hsv')
+            Color(*color)
             displaywidth = 700
             bottomboard = 200
             squarewidth = int(displaywidth/8)
