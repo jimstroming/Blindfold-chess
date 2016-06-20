@@ -26,7 +26,16 @@ class Chessboard(object):
 
    def printboard(self):
        for x in range(0,8):
-           print self.board[7-x]                  
+           print self.board[7-x] 
+           
+   def checkifvalidmove(color, sourcex, sourcey, destx, desty):
+       # if players piece not selected return False
+       # if destination not in possible destinations return False
+       # if move would result in own king in check return False
+       # if piece moving is king
+       # if any intermediate move is in check return False
+       return True
+                         
 
 if __name__ == '__main__':
     print "hello"

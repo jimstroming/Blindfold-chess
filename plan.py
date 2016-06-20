@@ -24,7 +24,6 @@ While neither player resigned and reset not pressed
 
 Check if valid move{
     if players piece not selected return False
-    create list of possible destinations
     if destination not in possible destinations return False
     if move would result in own king in check return False
     if piece moving is king
