@@ -55,8 +55,16 @@ class Chessboard(object):
         return False,False
         
     def checkifincheck(self, color, board):
-         # find the king
-         
+        # find the king
+        kingx,kingy = self.findonepiece(color+'K',board)
+        print 'king at',kingx,kingy
+        for y in range(0,7):
+            for x in range(0,7):
+                # see if opponent piece can move to king
+                piecetocheck = self.board[y][x]
+                if piecetocheck[0] != '0' and piecetocheck[0] != color:
+                    if self.checkifmoveispossibledest(x,y,kingx,kingy,board):
+                        return True
         return False    
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
@@ -67,7 +75,13 @@ class Chessboard(object):
         piecetype  = colorpiece[1]
         print piececolor
         print piecetype
-        potentialmoves = self.moverules[colorpiece]
+        if colorpiece[1] == 'P':  # handle the pawn separately
+            # this is just a stub so we don't crash
+            # a lot more work to do on pawns.
+            # probably a completely different if-else
+            potentialmoves = self.moverules[colorpiece[0]+'Pnocapture']
+        else:
+            potentialmoves = self.moverules[colorpiece]
         print potentialmoves
         for moverule in potentialmoves:
             checkx = sourcex
@@ -111,7 +125,8 @@ class Chessboard(object):
                         if checkcolorpiece[0] != piececolor:
                             if checkx == destx and checky == desty:
                                 return True
-        
+        # still need to handle if the move is illegal
+        # because it would place your own king in check
         return False
                          
 if __name__ == '__main__':
@@ -120,3 +135,4 @@ if __name__ == '__main__':
     chessboard.printboard()
     print chessboard.checkifmoveispossibledest(6,0,7,2,chessboard.board)
     print chessboard.findonepiece('BQ',chessboard.board)
+    print chessboard.checkifincheck('B',chessboard.board)
