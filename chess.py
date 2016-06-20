@@ -5,30 +5,36 @@ class Chessboard(object):
     # white on bottom, black on top
    
     def __init__(self):
-        firstrow = ['WR','WN','WB','WQ','WK','WB','WN','WR']
+        firstrow = ['Wr','WN','WB','WQ','Wk','WB','WN','Wr'] # r is a R that hasn't moved
         wpawnrow = ['Wp','Wp','Wp','Wp','Wp','Wp','Wp','Wp'] # p is a P that hasn't moved
         blnkrow2 = ['00','00','00','00','00','00','00','00']
         blnkrow3 = ['00','00','00','00','00','00','00','00']
         blnkrow4 = ['00','00','00','00','00','00','00','00']
         blnkrow5 = ['00','00','00','00','00','00','00','00']
         bpawnrow = ['Bp','Bp','Bp','Bp','Bp','Bp','Bp','Bp']
-        lastrow  = ['BR','BN','BB','BQ','BK','BB','BN','BR']
+        lastrow  = ['Br','BN','BB','BQ','Bk','BB','BN','Br'] # k is a K that hasn't moved
         self.board = [firstrow, wpawnrow, blnkrow2, blnkrow3,
                      blnkrow4, blnkrow5, bpawnrow, lastrow]
                      
         self.moverules = {'WR':[[0,7],[0,-7],[7,0],[-7,0]],
+                          'Wr':[[0,7],[0,-7],[7,0],[-7,0]],
                           'WB':[[7,7],[7,-7],[-7,7],[-7,-7]],
                           'WQ':[[0,7],[0,-7],[7,0],[-7,0],
                                [7,7],[7,-7],[-7,7],[-7,-7]],
                           'WK':[[0,1],[0,-1],[1,0],[-1,0],
                                [1,1],[1,-1],[-1,1],[-1,-1]],
+                          'Wk':[[0,1],[0,-1],[1,0],[-1,0],
+                               [1,1],[1,-1],[-1,1],[-1,-1]],
                           'WN':[[2,1],[2,-1],[-2,1],[-2,-1],
                                [1,2],[1,-2],[-1,2],[-1,-2]],
                           'BR':[[0,7],[0,-7],[7,0],[-7,0]],
+                          'Br':[[0,7],[0,-7],[7,0],[-7,0]],
                           'BB':[[7,7],[7,-7],[-7,7],[-7,-7]],
                           'BQ':[[0,7],[0,-7],[7,0],[-7,0],
                                [7,7],[7,-7],[-7,7],[-7,-7]],
                           'BK':[[0,1],[0,-1],[1,0],[-1,0],
+                               [1,1],[1,-1],[-1,1],[-1,-1]],
+                          'Bk':[[0,1],[0,-1],[1,0],[-1,0],
                                [1,1],[1,-1],[-1,1],[-1,-1]],
                           'BN':[[2,1],[2,-1],[-2,1],[-2,-1],
                                [1,2],[1,-2],[-1,2],[-1,-2]],
@@ -78,7 +84,12 @@ class Chessboard(object):
         return False    
 
     def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
-        board[desty][destx] = board[sourcey][sourcex]
+        piece = board[sourcey][sourcex]
+        pdb.set_trace()
+        if piece[1] == 'r': piece = piece[0]+'R'
+        if piece[1] == 'k': piece = piece[0]+'K'
+        if piece[1] == 'p': piece = piece[0]+'P'
+        board[desty][destx] = piece
         board[sourcey][sourcex] = '00'
 
 
