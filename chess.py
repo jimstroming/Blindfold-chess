@@ -6,12 +6,12 @@ class Chessboard(object):
    
     def __init__(self):
         firstrow = ['WR','WN','WB','WQ','WK','WB','WN','WR']
-        wpawnrow = ['WP','WP','WP','WP','WP','WP','WP','WP']
+        wpawnrow = ['Wp','Wp','Wp','Wp','Wp','Wp','Wp','Wp'] # p is a P that hasn't moved
         blnkrow2 = ['00','00','00','00','00','00','00','00']
         blnkrow3 = ['00','00','00','00','00','00','00','00']
         blnkrow4 = ['00','00','00','00','00','00','00','00']
         blnkrow5 = ['00','00','00','00','00','00','00','00']
-        bpawnrow = ['BP','BP','BP','BP','BP','BP','BP','BP']
+        bpawnrow = ['Bp','Bp','Bp','Bp','Bp','Bp','Bp','Bp']
         lastrow  = ['BR','BN','BB','BQ','BK','BB','BN','BR']
         self.board = [firstrow, wpawnrow, blnkrow2, blnkrow3,
                      blnkrow4, blnkrow5, bpawnrow, lastrow]
@@ -34,10 +34,12 @@ class Chessboard(object):
                                [1,2],[1,-2],[-1,2],[-1,-2]],
                           'WPnocapture':[[0,1]],
                           'WPcapture':[[-1,1],[1,1]],
-                          'BPfirstmove':[[0,-1],[0,-2]],
+                          'Wpnocapture':[[0,1],[0,2]],
+                          'Wpcapture' : [[-1,1],[1,1]],
                           'BPnocapture':[[0,-1]],
                           'BPcapture':[[-1,-1],[1,-1]],
-                          'BPfirstmove':[[0,-1],[0,-2]]
+                          'Bpnocapture':[[0,-1],[0,-2]],                          
+                          'Bpcapture':[[-1,-1],[1,-1]]
                          }
 
     def printboard(self):
@@ -96,7 +98,7 @@ class Chessboard(object):
         piecetype  = colorpiece[1]
         print piececolor
         print piecetype
-        if colorpiece[1] == 'P':  # handle the pawn separately
+        if colorpiece[1] == 'P' or colorpiece[1] == 'p':  # handle the pawn separately
             # this is just a stub so we don't crash
             # a lot more work to do on pawns.
             # probably a completely different if-else
