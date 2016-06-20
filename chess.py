@@ -36,9 +36,9 @@ class Chessboard(object):
             # if any intermediate move is in check return False
         return True
 
-    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty):
+    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
-        colorpiece = self.board[sourcey][sourcex]
+        colorpiece = board[sourcey][sourcex]
         print colorpiece
         piececolor = colorpiece[0]
         piecetype  = colorpiece[1]
@@ -66,7 +66,7 @@ class Chessboard(object):
                     elif checky < 0 or checky > 7:
                         checkend = True
                     else:    
-                        checkcolorpiece = self.board[checky][checkx]   
+                        checkcolorpiece = board[checky][checkx]
                         if checkcolorpiece[0] == piececolor:
                             checkend = True
                         elif checkcolorpiece[0] == '0':
@@ -84,7 +84,7 @@ class Chessboard(object):
                 checky += moverule[1]
                 if checkx >= 0 and checkx <= 7:
                     if checky >= 0 and checkx <= 7:
-                        checkcolorpiece = self.board[checky][checkx]
+                        checkcolorpiece = board[checky][checkx]
                         if checkcolorpiece[0] != piececolor:
                             if checkx == destx and checky == desty:
                                 return True
@@ -95,4 +95,4 @@ if __name__ == '__main__':
     print "hello"
     chessboard = Chessboard()  
     chessboard.printboard()
-    print chessboard.checkifmoveispossibledest(6,0,7,2)
+    print chessboard.checkifmoveispossibledest(6,0,7,2,chessboard.board)
