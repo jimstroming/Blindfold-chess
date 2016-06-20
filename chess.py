@@ -1,4 +1,5 @@
 import pdb
+from copy import deepcopy
 
 class Chessboard(object):
     # white on bottom, black on top
@@ -70,19 +71,18 @@ class Chessboard(object):
                         return True
         return False    
 
-    def updateboard(self,sourcex,sourcey,destx,desty,board):
+    def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
         board[desty][destx] = board[sourcey][sourcex]
         board[sourcey][sourcex] = '00'
-        return board
 
 
     def wouldmoveexposecheck(self,sourcex,sourcey,destx,desty,board):
-        # Need to write this routine
         
-        newboard = board
-        
-        
-        return False
+        colorpiece = board[sourcey][sourcex]
+        color = colorpiece[0]
+        newboard = deepcopy(board)
+        self.updateboardinplace(sourcex,sourcey,destx,desty,newboard)
+        return self.checkifincheck(color, newboard)
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
@@ -154,5 +154,7 @@ if __name__ == '__main__':
     
     chessboard.printboard()
     print "move the knight"
-    chessboard.board = chessboard.updateboard(1,0,0,2,chessboard.board)
+    chessboard.updateboardinplace(1,0,0,2,chessboard.board)
+    chessboard.printboard()
+    print chessboard.wouldmoveexposecheck(3,1,3,2,chessboard.board)
     chessboard.printboard()
