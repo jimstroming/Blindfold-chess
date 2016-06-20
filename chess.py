@@ -46,11 +46,15 @@ class Chessboard(object):
            
     def checkifvalidmove(self, color, sourcex, sourcey, destx, desty):
         # if players piece not selected return False
+        colorpiece = self.board[sourcey][sourcex]
+        if colorpiece[0] != color:
+            print 'wrong color'
+            return False
         # if destination not in possible destinations return False
-        # if move would result in own king in check return False
-        # if piece moving is king
-            # if any intermediate move is in check return False
-        return True
+        return self.checkifmoveispossibledest(sourcex, sourcey, destx, desty, self.board)
+        
+    def makevalidmove(self,sourcex, sourcey, destx, desty):
+        self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)    
         
     def findonepiece(self, piece, board):
         for y in range(0,8):
@@ -137,24 +141,29 @@ class Chessboard(object):
                 checkx += moverule[0]
                 checky += moverule[1]
                 if checkx >= 0 and checkx <= 7:
-                    if checky >= 0 and checkx <= 7:
+                    if checky >= 0 and checky <= 7:
                         checkcolorpiece = board[checky][checkx]
                         if checkcolorpiece[0] != piececolor:
                             if checkx == destx and checky == desty:
                                 return True
+                                
+            # Need extra processing if move is king.
+            # Need to check if this is a castle
+            # ADD HERE                    
         return False
                          
 if __name__ == '__main__':
     print "hello"
-    chessboard = Chessboard()  
-    chessboard.printboard()
-    print chessboard.checkifmoveispossibledest(6,0,7,2,chessboard.board)
-    print chessboard.findonepiece('BQ',chessboard.board)
-    print chessboard.checkifincheck('B',chessboard.board)
+    cb = Chessboard()  
+    cb.printboard()
+    pdb.set_trace()
+    print cb.checkifmoveispossibledest(6,0,7,2,cb.board)
+    print cb.findonepiece('BQ',cb.board)
+    print cb.checkifincheck('B',cb.board)
     
-    chessboard.printboard()
+    cb.printboard()
     print "move the knight"
-    chessboard.updateboardinplace(1,0,0,2,chessboard.board)
-    chessboard.printboard()
-    print chessboard.wouldmoveexposecheck(3,1,3,2,chessboard.board)
-    chessboard.printboard()
+    cb.updateboardinplace(1,0,0,2,cb.board)
+    cb.printboard()
+    print cb.wouldmoveexposecheck(3,1,3,2,cb.board)
+    cb.printboard()
