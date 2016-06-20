@@ -80,7 +80,14 @@ class Chessboard(object):
                                 return True     
             else:
                 # process a jumpmove
-                return False
+                checkx += moverule[0]
+                checky += moverule[1]
+                if checkx >= 0 and checkx <= 7:
+                    if checky >= 0 and checkx <= 7:
+                        checkcolorpiece = self.board[checky][checkx]
+                        if checkcolorpiece[0] != piececolor:
+                            if checkx == destx and checky == desty:
+                                return True
         
         return False
                          
@@ -88,4 +95,4 @@ if __name__ == '__main__':
     print "hello"
     chessboard = Chessboard()  
     chessboard.printboard()
-    print chessboard.checkifmoveispossibledest(3,0,3,7)
+    print chessboard.checkifmoveispossibledest(6,0,7,2)
