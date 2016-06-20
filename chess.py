@@ -35,6 +35,17 @@ class Chessboard(object):
         # if piece moving is king
             # if any intermediate move is in check return False
         return True
+        
+    def findonepiece(self, piece, board):
+        for y in range(0,8):
+            if piece in board[y]:
+                return board[y].index(piece),y
+        return False,False
+        
+    def checkifincheck(self, color, board):
+         # find the king
+         
+        return False    
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
@@ -96,3 +107,4 @@ if __name__ == '__main__':
     chessboard = Chessboard()  
     chessboard.printboard()
     print chessboard.checkifmoveispossibledest(6,0,7,2,chessboard.board)
+    print chessboard.findonepiece('BQ',chessboard.board)
