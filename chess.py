@@ -1,6 +1,7 @@
 import pdb
 
 class Chessboard(object):
+    # white on bottom, black on top
    
     def __init__(self):
         firstrow = ['WR','WN','WB','WQ','WK','WB','WN','WR']
@@ -11,17 +12,28 @@ class Chessboard(object):
         self.board = [firstrow, wpawnrow, blankrow, blankrow,
                      blankrow, blankrow, bpawnrow, lastrow]
                      
-        self.moverules = {'R':[[0,7],[0,-7],[7,0],[-7,0]],
-                          'B':[[7,7],[7,-7],[-7,7],[-7,-7]],
-                          'Q':[[0,7],[0,-7],[7,0],[-7,0],
-                              [7,7],[7,-7],[-7,7],[-7,-7]],
-                          'K':[[0,1],[0,-1],[1,0],[-1,0],
-                              [1,1],[1,-1],[-1,1],[-1,-1]],
-                          'N':[[2,1],[2,-1],[-2,1],[-2,-1],
-                              [1,2],[1,-2],[-1,2],[-1,-2]],
-                          'pawnnocapture':[[0,1]],
-                          'pawncapture':[[-1,1],[1,1]],
-                          'pawnfirstmove':[[0,1],[0,2]]
+        self.moverules = {'WR':[[0,7],[0,-7],[7,0],[-7,0]],
+                          'WB':[[7,7],[7,-7],[-7,7],[-7,-7]],
+                          'WQ':[[0,7],[0,-7],[7,0],[-7,0],
+                               [7,7],[7,-7],[-7,7],[-7,-7]],
+                          'WK':[[0,1],[0,-1],[1,0],[-1,0],
+                               [1,1],[1,-1],[-1,1],[-1,-1]],
+                          'WN':[[2,1],[2,-1],[-2,1],[-2,-1],
+                               [1,2],[1,-2],[-1,2],[-1,-2]],
+                          'BR':[[0,7],[0,-7],[7,0],[-7,0]],
+                          'BB':[[7,7],[7,-7],[-7,7],[-7,-7]],
+                          'BQ':[[0,7],[0,-7],[7,0],[-7,0],
+                               [7,7],[7,-7],[-7,7],[-7,-7]],
+                          'BK':[[0,1],[0,-1],[1,0],[-1,0],
+                               [1,1],[1,-1],[-1,1],[-1,-1]],
+                          'BN':[[2,1],[2,-1],[-2,1],[-2,-1],
+                               [1,2],[1,-2],[-1,2],[-1,-2]],
+                          'WPnocapture':[[0,1]],
+                          'WPcapture':[[-1,1],[1,1]],
+                          'BPfirstmove':[[0,-1],[0,-2]],
+                          'BPnocapture':[[0,-1]],
+                          'BPcapture':[[-1,-1],[1,-1]],
+                          'BPfirstmove':[[0,-1],[0,-2]]
                          }
 
     def printboard(self):
@@ -55,7 +67,7 @@ class Chessboard(object):
         piecetype  = colorpiece[1]
         print piececolor
         print piecetype
-        potentialmoves = self.moverules[piecetype]
+        potentialmoves = self.moverules[colorpiece]
         print potentialmoves
         for moverule in potentialmoves:
             checkx = sourcex
