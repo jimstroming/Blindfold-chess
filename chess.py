@@ -6,11 +6,14 @@ class Chessboard(object):
     def __init__(self):
         firstrow = ['WR','WN','WB','WQ','WK','WB','WN','WR']
         wpawnrow = ['WP','WP','WP','WP','WP','WP','WP','WP']
-        blankrow = ['00','00','00','00','00','00','00','00']
+        blnkrow2 = ['00','00','00','00','00','00','00','00']
+        blnkrow3 = ['00','00','00','00','00','00','00','00']
+        blnkrow4 = ['00','00','00','00','00','00','00','00']
+        blnkrow5 = ['00','00','00','00','00','00','00','00']
         bpawnrow = ['BP','BP','BP','BP','BP','BP','BP','BP']
         lastrow  = ['BR','BN','BB','BQ','BK','BB','BN','BR']
-        self.board = [firstrow, wpawnrow, blankrow, blankrow,
-                     blankrow, blankrow, bpawnrow, lastrow]
+        self.board = [firstrow, wpawnrow, blnkrow2, blnkrow3,
+                     blnkrow4, blnkrow5, bpawnrow, lastrow]
                      
         self.moverules = {'WR':[[0,7],[0,-7],[7,0],[-7,0]],
                           'WB':[[7,7],[7,-7],[-7,7],[-7,-7]],
@@ -67,6 +70,20 @@ class Chessboard(object):
                         return True
         return False    
 
+    def updateboard(self,sourcex,sourcey,destx,desty,board):
+        board[desty][destx] = board[sourcey][sourcex]
+        board[sourcey][sourcex] = '00'
+        return board
+
+
+    def wouldmoveexposecheck(self,sourcex,sourcey,destx,desty,board):
+        # Need to write this routine
+        
+        newboard = board
+        
+        
+        return False
+
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
         colorpiece = board[sourcey][sourcex]
@@ -114,7 +131,7 @@ class Chessboard(object):
                             # on opponent piece
                             checkend = True
                             if checkx == destx and checky == desty:
-                                return True     
+                                return True
             else:
                 # process a jumpmove
                 checkx += moverule[0]
@@ -125,8 +142,6 @@ class Chessboard(object):
                         if checkcolorpiece[0] != piececolor:
                             if checkx == destx and checky == desty:
                                 return True
-        # still need to handle if the move is illegal
-        # because it would place your own king in check
         return False
                          
 if __name__ == '__main__':
@@ -136,3 +151,8 @@ if __name__ == '__main__':
     print chessboard.checkifmoveispossibledest(6,0,7,2,chessboard.board)
     print chessboard.findonepiece('BQ',chessboard.board)
     print chessboard.checkifincheck('B',chessboard.board)
+    
+    chessboard.printboard()
+    print "move the knight"
+    chessboard.board = chessboard.updateboard(1,0,0,2,chessboard.board)
+    chessboard.printboard()
