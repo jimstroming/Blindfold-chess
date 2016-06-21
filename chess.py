@@ -127,14 +127,36 @@ class Chessboard(object):
         piecetype  = colorpiece[1]
         print piececolor
         print piecetype
-        if colorpiece[1] == 'P' or colorpiece[1] == 'p':  # handle the pawn separately
-            # this is just a stub so we don't crash
-            # a lot more work to do on pawns.
-            # probably a completely different if-else
-            potentialmoves = self.moverules[colorpiece[0]+'Pnocapture']
-        else:
-            potentialmoves = self.moverules[colorpiece]
-        print potentialmoves
+        potentialmoves = self.moverules[colorpiece] 
+        print potentialmoves       
+        if colorpiece[1] == 'P' or colorpiece[1] == 'p':      
+            # handle the pawn separately from the other pieces
+            for moverule in potentialmoves:
+                checkx = sourcex
+                checky = sourcey
+                print moverule
+                if checkx+moverule[0] == destx and checky+moverule[1] == desty:
+                    if abs(moverule[0]) == 1:
+                        # this is a capture rule
+                        checkcolorpiece = board[desty][destx]
+                        if checkcolorpiece[0] != piececolor and checkcolorpiece[0] != '0':
+                            return True    # this has to be a capture, for now
+                                           # I will later have to add the en passant
+                                           # code into this case. 
+                    else: # check if moving 1 or 2
+                        if abs(moverule[1]) == 2:
+                           # 2 move initial case.
+                           # need to make sure space in between is empty
+                           moverule[0] = moverule[0]/2
+                           moverule[1] = moverule[1]/2 
+                           checkx += moverule[0]
+                           checky += moverule[1]
+                           if board[checky][checkx] != '00': return False
+                        if board[desty][destx] == '00': return True   # 1 move case
+                                            # as well as destination of 2 move case
+            return False
+    
+        # not a pawn
         for moverule in potentialmoves:
             checkx = sourcex
             checky = sourcey
@@ -171,12 +193,10 @@ class Chessboard(object):
                 # process a jumpmove
                 checkx += moverule[0]
                 checky += moverule[1]
-                if checkx >= 0 and checkx <= 7:
-                    if checky >= 0 and checky <= 7:
-                        checkcolorpiece = board[checky][checkx]
-                        if checkcolorpiece[0] != piececolor:
-                            if checkx == destx and checky == desty:
-                                return True
+                if checkx == destx and checky == desty:
+                    checkcolorpiece = board[checky][checkx]
+                    if checkcolorpiece[0] != piececolor:
+                        return True
                                 
             # Need extra processing if move is king.
             # Need to check if this is a castle
