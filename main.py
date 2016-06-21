@@ -44,7 +44,13 @@ class BlindChessApp(App):
         startbtn = Button(text='Start')
         startbtn.bind(on_release=self.draw_board)
         parent.add_widget(self.painter)
-        parent.add_widget(startbtn)
+        parent.add_widget(startbtn)        
+        whitechoosepiece = Button(text='Piece', x=200)
+        whitechoosepiece.bind(on_release=self.enter_piece)
+        whitemove = Button(text='Move', x=400)
+        whitemove.bind(on_release=self.enter_destination)
+        parent.add_widget(whitechoosepiece)
+        parent.add_widget(whitemove)
         return parent
 
     def clear_canvas(self, obj):
@@ -52,7 +58,12 @@ class BlindChessApp(App):
         
     def draw_board(self, obj):
         self.painter.drawboard()
-
+        
+    def enter_piece(self, obj):
+        return
+        
+    def enter_destination(self, obj):    
+        return
 
 if __name__ == '__main__':
     BlindChessApp().run()
