@@ -38,14 +38,10 @@ class Chessboard(object):
                                [1,1],[1,-1],[-1,1],[-1,-1]],
                           'BN':[[2,1],[2,-1],[-2,1],[-2,-1],
                                [1,2],[1,-2],[-1,2],[-1,-2]],
-                          'WPnocapture':[[0,1]],
-                          'WPcapture':[[-1,1],[1,1]],
-                          'Wpnocapture':[[0,1],[0,2]],
-                          'Wpcapture' : [[-1,1],[1,1]],
-                          'BPnocapture':[[0,-1]],
-                          'BPcapture':[[-1,-1],[1,-1]],
-                          'Bpnocapture':[[0,-1],[0,-2]],                          
-                          'Bpcapture':[[-1,-1],[1,-1]]
+                          'WP':[[0,1],[-1,1],[1,1]],
+                          'Wp':[[0,1],[0,2],[-1,1],[1,1]],
+                          'BP':[[0,-1],[-1,-1],[1,-1]],
+                          'Bp':[[0,-1],[0,-2],[-1,-1],[1,-1]]
                          }
 
     def printboard(self):
@@ -81,6 +77,17 @@ class Chessboard(object):
                 if piecetocheck[0] != '0' and piecetocheck[0] != color:
                     if self.checkifmoveispossibledest(x,y,kingx,kingy,board):
                         return True
+        return False    
+        
+    def checkforpawnpromotion(self,color):
+        # need to write this.
+        # need on routine to detect the pawn promotion
+        # another routine to promote the piece, since the user
+        # will need to select which piece they want
+        # they will likely want a queen
+        # they may instead what a knight
+        # they could conceivably want an even lesser piece
+        # to avoid a stalemate.
         return False    
 
     def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
