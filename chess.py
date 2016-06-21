@@ -53,7 +53,6 @@ class Chessboard(object):
     def getmovenotation(self, sourcex, sourcey, destx, desty):
         # return the algebraic notation of the move
         # for example
-        return
         
         # e4 e5    # pawn move
         # Nf3 Nc6  # knight move
@@ -62,11 +61,52 @@ class Chessboard(object):
         # e4xd6    # pawn capture
         # ex6d6e.p # en passant capture
         # Ra1 Ra8+ # check
-        # e7 e8=Q  # pawn promotion
+        # e7 e8=Q  # pawn promotion.  
+                   # for now, skip this, since our pawn 
+                   # promotion is interactive.
         # 0-0      # kingside  castling
         # 0-0-0    # queenside castling
-           
-           
+        
+        notationstring = ""
+        ranks = [1,2,3,4,5,6,7,8]
+        files = [a,b,c,d,e,f,g,h]
+        enpassant = False
+        
+        # get the piece
+        colorpiece = self.board[sourcey][sourcex]
+        color = colorpiece[0]
+        piece = colorpiece[1]
+        if piece == 'r': piece = 'R'
+        if piece == 'p' or piece == 'P': piece = ''
+        if piece == 'k': piece = 'K'
+        
+        if piece == 'K' and abs(destx-sourcex) == 2:
+            # castling.  Need to check queen or king side.        
+            if destx < sourcex:
+                notationstring = "0-0-0" # queenside castling
+            else:
+                notationstring = "0-0"   # kingside casting   
+        else:
+            notationstring = piece+files[sourcey]+rank[sourcex]
+            if piece != '': notationstring += ' '
+            notationstring += piece
+            # check for enpassant capture
+            if piece == '' and abs(sourcex-destx) == 1 and self.board[sourcy][sourcex] == '00':
+                enpassant = True
+                notationstring += 'x'
+            # check for capture
+            destcolorpiece = self.board[desty][destx]
+            destcolor = destcolorpiece[1]
+            if destcolor != '0' and destcolor != color:
+                notationstring += 'x'
+            notationstring +=  files[sourcey]+rank[sourcex]  
+            # check if now in check
+            newboard = deepcopy(board)  
+            self.makevalidmove(color,sourcex, sourcey, destx, desty)
+            if checkifincheck(color, newboard):
+                notationstring += '+'
+        return notationstring   
+    
     def checkifvalidmove(self, color, sourcex, sourcey, destx, desty):
         # if players piece not selected return False
         colorpiece = self.board[sourcey][sourcex]
