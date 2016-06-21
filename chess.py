@@ -49,6 +49,23 @@ class Chessboard(object):
     def printboard(self):
         for x in range(0,8):
             print self.board[7-x] 
+            
+    def getmovenotation(self, sourcex, sourcey, destx, desty):
+        # return the algebraic notation of the move
+        # for example
+        return
+        
+        # e4 e5    # pawn move
+        # Nf3 Nc6  # knight move
+        # Bb5 a6   # bishop move
+        # Bd4 Bxe5 # bishop capture
+        # e4xd6    # pawn capture
+        # ex6d6e.p # en passant capture
+        # Ra1 Ra8+ # check
+        # e7 e8=Q  # pawn promotion
+        # 0-0      # kingside  castling
+        # 0-0-0    # queenside castling
+           
            
     def checkifvalidmove(self, color, sourcex, sourcey, destx, desty):
         # if players piece not selected return False
