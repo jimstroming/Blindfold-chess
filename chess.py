@@ -43,6 +43,8 @@ class Chessboard(object):
                           'BP':[[0,-1],[-1,-1],[1,-1]],
                           'Bp':[[0,-1],[0,-2],[-1,-1],[1,-1]]
                          }
+        self.pawntopromote = [] # x,y location of the pawn that needs
+                                # to be promoted 
 
     def printboard(self):
         for x in range(0,8):
@@ -89,6 +91,15 @@ class Chessboard(object):
         # they could conceivably want an even lesser piece
         # to avoid a stalemate.
         return False    
+        
+    def promotepawn(self, colorpiece):
+        # need to write this, the routine that actually promotes the pawn
+        if len(self.pawntopromote) != 2: return False
+        x = self.pawntopromote[0]
+        y = self.pawntopromote[1]
+        self.board[y][x] = colorpiece
+        self.pawntopromte = []
+        return True
 
     def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
         piece = board[sourcey][sourcex]
