@@ -13,7 +13,7 @@ class BlindChessWidget(Widget):
         with self.canvas:
             Color(*color)
             PushMatrix()
-            Rotate(angle=1)
+            Rotate(angle=0)
             displaywidth = Window.size[0]
             bottomboard = displaywidth*2/7
             squarewidth = int(displaywidth/8)
@@ -39,9 +39,6 @@ class BlindChessWidget(Widget):
             Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
             touch.ud['line'] = Line(points=(touch.x, touch.y))
 
-    def on_touch_move(self, touch):
-        touch.ud['line'].points += [touch.x, touch.y]
-
 
 class BlindChessApp(App):
 
@@ -52,7 +49,7 @@ class BlindChessApp(App):
         startbtn.bind(on_release=self.draw_board)
         parent.add_widget(self.painter)
         parent.add_widget(startbtn)    
-        buttonwidth = Window.size[0]/7    
+        buttonwidth = Window.size[0]/7
         whitechoosepiece = Button(x=Window.size[0]*2/7,y=0,height=buttonwidth,width=buttonwidth)
         whitechoosepiece.bind(on_release=self.enter_piece)
         whitemove = Button(x=Window.size[0]*4/7,y=0,height=buttonwidth,width=buttonwidth)
