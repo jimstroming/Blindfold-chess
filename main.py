@@ -28,6 +28,9 @@ class BlindChessWidget(Widget):
                 component = 1-component
             PopMatrix()
 
+
+    
+
     def on_touch_down(self, touch):
         color = (random(), 1, 1)
         with self.canvas:
@@ -49,9 +52,9 @@ class BlindChessApp(App):
         startbtn.bind(on_release=self.draw_board)
         parent.add_widget(self.painter)
         parent.add_widget(startbtn)        
-        whitechoosepiece = Button(text='Piece', x=200)
+        whitechoosepiece = Button(text='Piece', x=Window.size[0]*2/7)
         whitechoosepiece.bind(on_release=self.enter_piece)
-        whitemove = Button(text='Move', x=400)
+        whitemove = Button(text='Move', x=Window.size[0]*4/7)
         whitemove.bind(on_release=self.enter_destination)
         parent.add_widget(whitechoosepiece)
         parent.add_widget(whitemove)
