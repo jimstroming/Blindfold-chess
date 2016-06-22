@@ -43,30 +43,27 @@ class BlindChessWidget(Widget):
 class BlindChessApp(App):
 
     def build(self):
-        parent = Widget()
-        self.painter = BlindChessWidget()
-        startbtn = Button(text='Start')
-        startbtn.bind(on_release=self.draw_board)
-        parent.add_widget(self.painter)
-        parent.add_widget(startbtn)    
+        parent = Widget() 
+        self.chessboard = BlindChessWidget()
+        #startbtn = Button(text='Start')
+        #startbtn.bind(on_release=self.draw_board)
+        parent.add_widget(self.chessboard)
+        #parent.add_widget(startbtn)    
         buttonwidth = Window.size[0]/7
         whitechoosepiece = Button(x=Window.size[0]*2/7,y=0,height=buttonwidth,width=buttonwidth)
         whitechoosepiece.bind(on_release=self.enter_piece)
-        whitemove = Button(x=Window.size[0]*4/7,y=0,height=buttonwidth,width=buttonwidth)
-        whitemove.bind(on_release=self.enter_destination)
         parent.add_widget(whitechoosepiece)
-        parent.add_widget(whitemove)
         blackchoosepiece = Button(x=Window.size[0]*2/7,y=Window.size[1]-buttonwidth,height=buttonwidth,width=buttonwidth)
         blackchoosepiece.bind(on_release=self.enter_piece)
-        blackmove = Button(x=Window.size[0]*4/7,y=Window.size[1]-buttonwidth,height=buttonwidth,width=buttonwidth)
-        blackmove.bind(on_release=self.enter_destination)
         parent.add_widget(blackchoosepiece)
-        parent.add_widget(blackmove)
-
+        self.numberlives = 0
+        self.blindgame = False # False means show the pieces
+                               # True means don't shoe the pieces
+        self.chessboard.drawboard()
         return parent
 
     def clear_canvas(self, obj):
-        self.painter.canvas.clear()
+        self.chessboard.canvas.clear()
         
     def draw_board(self, obj):
         self.painter.drawboard()
