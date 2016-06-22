@@ -1,7 +1,7 @@
 import pdb
 from copy import deepcopy
 
-class Chessboard(object):
+class ChessEngine(object):
     # white on bottom, black on top
    
     def __init__(self):
@@ -49,6 +49,9 @@ class Chessboard(object):
     def printboard(self):
         for x in range(0,8):
             print self.board[7-x] 
+            
+    def getpiece(self, x, y):
+        return self.board[y][x]        
             
     def getmovenotation(self, sourcex, sourcey, destx, desty):
         # return the algebraic notation of the move
@@ -261,7 +264,7 @@ class Chessboard(object):
                          
 if __name__ == '__main__':
     print "hello"
-    cb = Chessboard()  
+    cb = ChessEngine()  
     cb.printboard()
     pdb.set_trace()
     print cb.checkifmoveispossibledest(6,0,7,2,cb.board)
