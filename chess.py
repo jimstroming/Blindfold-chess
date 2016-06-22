@@ -68,8 +68,8 @@ class Chessboard(object):
         # 0-0-0    # queenside castling
         
         notationstring = ""
-        ranks = [1,2,3,4,5,6,7,8]
-        files = [a,b,c,d,e,f,g,h]
+        ranks = ['1','2','3','4','5','6','7','8']
+        files = ['a','b','c','d','e','f','g','h']
         enpassant = False
         
         # get the piece
@@ -87,7 +87,7 @@ class Chessboard(object):
             else:
                 notationstring = "0-0"   # kingside casting   
         else:
-            notationstring = piece+files[sourcey]+rank[sourcex]
+            notationstring = piece+files[sourcey]+ranks[sourcex]
             if piece != '': notationstring += ' '
             notationstring += piece
             # check for enpassant capture
@@ -96,14 +96,14 @@ class Chessboard(object):
                 notationstring += 'x'
             # check for capture
             destcolorpiece = self.board[desty][destx]
-            destcolor = destcolorpiece[1]
+            destcolor = destcolorpiece[0]
             if destcolor != '0' and destcolor != color:
                 notationstring += 'x'
-            notationstring +=  files[sourcey]+rank[sourcex]  
+            notationstring +=  files[desty]+ranks[destx]  
             # check if now in check
-            newboard = deepcopy(board)  
-            self.makevalidmove(color,sourcex, sourcey, destx, desty)
-            if checkifincheck(color, newboard):
+            newboard = deepcopy(self.board)  
+            self.updateboardinplace(sourcex, sourcey, destx, desty,newboard)
+            if self.checkifincheck(color, newboard):
                 notationstring += '+'
         return notationstring   
     
@@ -129,8 +129,8 @@ class Chessboard(object):
         # find the king
         kingx,kingy = self.findonepiece(color+'K',board)
         print 'king at',kingx,kingy
-        for y in range(0,7):
-            for x in range(0,7):
+        for y in range(0,8):
+            for x in range(0,8):
                 # see if opponent piece can move to king
                 piecetocheck = self.board[y][x]
                 if piecetocheck[0] != '0' and piecetocheck[0] != color:
@@ -185,7 +185,7 @@ class Chessboard(object):
         print piececolor
         print piecetype
         potentialmoves = self.moverules[colorpiece] 
-        print potentialmoves       
+        print potentialmoves  
         if colorpiece[1] == 'P' or colorpiece[1] == 'p':      
             # handle the pawn separately from the other pieces
             for moverule in potentialmoves:
@@ -204,10 +204,8 @@ class Chessboard(object):
                         if abs(moverule[1]) == 2:
                            # 2 move initial case.
                            # need to make sure space in between is empty
-                           moverule[0] = moverule[0]/2
-                           moverule[1] = moverule[1]/2 
-                           checkx += moverule[0]
-                           checky += moverule[1]
+                           checkx += moverule[0]/2
+                           checky += moverule[1]/2
                            if board[checky][checkx] != '00': return False
                         if board[desty][destx] == '00': return True   # 1 move case
                                             # as well as destination of 2 move case
@@ -221,13 +219,14 @@ class Chessboard(object):
             if abs(moverule[0]) == 7 or abs(moverule[1]) == 7:
                 # process the range move
                 # scale if down by 7
-                moverule[0] = moverule[0]/7
-                moverule[1] = moverule[1]/7
+                scaledmoverule = [0,0]
+                scaledmoverule[0] = moverule[0]/7
+                scaledmoverule[1] = moverule[1]/7
                 print moverule
                 checkend = False
                 while (not checkend):
-                    checkx += moverule[0]
-                    checky += moverule[1]
+                    checkx += scaledmoverule[0]
+                    checky += scaledmoverule[1]
                     print checkx, checky
                     if checkx < 0 or checkx > 7:
                         checkend = True
