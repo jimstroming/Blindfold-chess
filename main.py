@@ -51,13 +51,21 @@ class BlindChessApp(App):
         startbtn = Button(text='Start')
         startbtn.bind(on_release=self.draw_board)
         parent.add_widget(self.painter)
-        parent.add_widget(startbtn)        
-        whitechoosepiece = Button(text='Piece', x=Window.size[0]*2/7)
+        parent.add_widget(startbtn)    
+        buttonwidth = Window.size[0]/7    
+        whitechoosepiece = Button(x=Window.size[0]*2/7,y=0,height=buttonwidth,width=buttonwidth)
         whitechoosepiece.bind(on_release=self.enter_piece)
-        whitemove = Button(text='Move', x=Window.size[0]*4/7)
+        whitemove = Button(x=Window.size[0]*4/7,y=0,height=buttonwidth,width=buttonwidth)
         whitemove.bind(on_release=self.enter_destination)
         parent.add_widget(whitechoosepiece)
         parent.add_widget(whitemove)
+        blackchoosepiece = Button(x=Window.size[0]*2/7,y=Window.size[1]-buttonwidth,height=buttonwidth,width=buttonwidth)
+        blackchoosepiece.bind(on_release=self.enter_piece)
+        blackmove = Button(x=Window.size[0]*4/7,y=Window.size[1]-buttonwidth,height=buttonwidth,width=buttonwidth)
+        blackmove.bind(on_release=self.enter_destination)
+        parent.add_widget(blackchoosepiece)
+        parent.add_widget(blackmove)
+
         return parent
 
     def clear_canvas(self, obj):
