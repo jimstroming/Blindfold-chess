@@ -1,6 +1,17 @@
-BoxLayout:
+BlindChessRoot:
+
+<BlindChessRoot>:
   orientation: "vertical"
   BoxLayout:
+    size_hint_y: 1
+    Label:
+      size_hint_x: 1
+    Label:
+      size_hint_x: 3.5
+    Label:
+      size_hint_x: 1.5
+  BoxLayout:
+    size_hint_y: 1
     Button:
       size_hint_x: 1
     Button:
@@ -8,361 +19,493 @@ BoxLayout:
     Button:
       size_hint_x: 3
   BoxLayout:
-    Button:
-      size_hint_x: 1
-    Button:
-      size_hint_x: 2
-    Button:
-      size_hint_x: 3      
+    size_hint_y: 0.2   
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but07
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(0,7) 
     Button:
+      id: but17
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(1,7) 
     Button:
+      id: but27
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(2,7) 
     Button:
+      id: but37
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(3,7) 
     Button:
+      id: but47
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(4,7) 
     Button:
+      id: but57
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(5,7) 
     Button:
+      id: but67
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(6,7) 
     Button:
+      id: but77
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(7,7) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but06
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(0,6) 
     Button:
+      id: but16
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(1,6) 
     Button:
+      id: but26
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(2,6) 
     Button:
+      id: but36
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(3,6) 
     Button:
+      id: but46
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(4,6) 
     Button:
+      id: but56
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(5,6) 
     Button:
+      id: but66
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(6,6) 
     Button:
+      id: but76
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(7,6) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but05
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(0,5) 
     Button:
+      id: but15
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(1,5) 
     Button:
+      id: but25
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(2,5) 
     Button:
+      id: but35
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(3,5) 
     Button:
+      id: but45
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(4,5) 
     Button:
+      id: but55
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(5,5) 
     Button:
+      id: but65
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(6,5) 
     Button:
+      id: but75
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(7,5) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but04
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(0,4) 
     Button:
+      id: but14
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(1,4) 
     Button:
+      id: but24
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(2,4) 
     Button:
+      id: but34
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(3,4) 
     Button:
+      id: but44
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(4,4) 
     Button:
+      id: but54
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(5,4) 
     Button:
+      id: but64
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(6,4) 
     Button:
+      id: but74
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(7,4) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but03
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(0,3) 
     Button:
+      id: but13
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(1,3) 
     Button:
+      id: but23
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(2,3) 
     Button:
+      id: but33
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(3,3) 
     Button:
+      id: but43
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(4,3) 
     Button:
+      id: but53
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(5,3) 
     Button:
+      id: but63
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(6,3) 
     Button:
+      id: but73
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(7,3) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but02
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(0,2) 
     Button:
+      id: but12
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(1,2) 
     Button:
+      id: but22
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(2,2) 
     Button:
+      id: but32
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(3,2) 
     Button:
+      id: but42
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(4,2) 
     Button:
+      id: but52
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(5,2) 
     Button:
+      id: but62
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(6,2) 
     Button:
+      id: but72
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(7,2) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but01
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(0,1) 
     Button:
+      id: but11
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(1,1) 
     Button:
+      id: but21
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(2,1) 
     Button:
+      id: but31
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(3,1) 
     Button:
+      id: but41
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(4,1) 
     Button:
+      id: but51
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(5,1) 
     Button:
+      id: but61
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(6,1) 
     Button:
+      id: but71
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(7,1) 
+
   BoxLayout:
     height: root.width/8
     size_hint_y: None
     Button:
+      id: but00
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(0,0) 
     Button:
+      id: but10
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(1,0) 
     Button:
+      id: but20
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(2,0) 
     Button:
+      id: but30
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(3,0) 
     Button:
+      id: but40
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(4,0) 
     Button:
+      id: but50
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None
+      on_press:app.root.buttonpress(5,0) 
     Button:
+      id: but60
+      color: (0,0,0,1)
+      text: ''
       background_color: (.4,.4,.4,1)
-      background_normal: ''     
-      width: root.width/8
-      size_hint_x: None
+      background_normal: '' 
+      on_press:app.root.buttonpress(6,0) 
     Button:
+      id: but70
+      color: (0,0,0,1)
+      text: ''
       background_color: (.6,.6,.6,1)
       background_normal: '' 
-      width: root.width/8
-      size_hint_x: None     
+      on_press:app.root.buttonpress(7,0) 
+
+
   BoxLayout:
+    size_hint_y: 0.2 
+  BoxLayout:
+    size_hint_y: 1
     Button:
       size_hint_x: 1
     Button:
@@ -370,10 +513,32 @@ BoxLayout:
     Button:
       size_hint_x: 3
   BoxLayout:
-    Button:
+    size_hint_y: 1
+    Label:
+      size_hint_x: 1.5
+    Label:
+      size_hint_x: 3.5
+    Label:
       size_hint_x: 1
-    Button:
-      size_hint_x: 2
-    Button:
-      size_hint_x: 3
+
+    
+<LightGreyButton>:
+  Button:
+    id: greybut
+    color: (0,0,0,1)
+    text: 'Q'
+    background_color: (.6,.6,.6,1)
+    background_normal: '' 
+    on_press:root.changetext() 
+    
+<DarkGreyButton@BoxLayout>:
+  Button:
+    background_color: (.4,.4,.4,1)
+    background_normal: '' 
+    on_press:app.root.printwookie(root.x,root.y,root.size[0]) 
+
+    
+    
+   
+
 
