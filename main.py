@@ -12,6 +12,9 @@ class DarkGreyButton(BoxLayout):
     pass
 
 class BlindChessRoot(BoxLayout):
+
+    def createchessengine(self, chessengine):
+        self.chessengine = ChessEngine()    
     def printwookie(self, parameter0, parameter1, parameter2):
         print "WOOKIE", parameter0, parameter1, parameter2
     def buttonpress(self, x, y):
