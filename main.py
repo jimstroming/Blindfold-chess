@@ -27,8 +27,7 @@ class BlindChessRoot(BoxLayout):
         self.destx = -1
         self.desty = -1
         self.state = "looking for source"
-        
-        
+         
     def createchessengine(self):
         self.chessengine = ChessEngine() 
         
@@ -106,8 +105,21 @@ class BlindChessRoot(BoxLayout):
                 self.state = "looking for destination"
                 return
             if self.state == "looking for destination" and self.destx != -1:
-                self.state = "check the move"
                 # check if the move is legal
+                validmove = self.chessengine.checkifvalidmove(self.whosmove, self.sourcex, 
+                                    self.sourcey, self.destx, self.desty)
+                if validmove:  
+                    pass
+                    # make the move
+                    # flip color to other guys move
+                    # set the state
+                else:
+                    pass
+                    # increase invalid move count
+                    # set the state
+                # reset both the cursors ui
+                # rest the source and destination
+                # redraw the board
                 return
                 
     def cancelbuttonpress(self, color):
