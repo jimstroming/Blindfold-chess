@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from chess import ChessEngine
 
 class LightGreyButton(BoxLayout):   
     def changetext(self):
