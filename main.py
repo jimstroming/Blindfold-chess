@@ -75,6 +75,26 @@ class BlindChessRoot(BoxLayout):
                 self.ids[buttonid].background_color = (.9,.9,.9,1)
             else:
                 self.ids[buttonid].background_color = (.1,.1,.1,1)
+            return
+            
+        if self.state == "looking for destination":
+            if x == self.sourcex and y == self.sourcey:
+                return    # can't have source be same as destination
+        
+            # check if we need to erase the previous destination source
+            if self.destx != -1:
+                buttonid = buttonid = "but"+str(self.destx)+str(self.desty)
+                self.ids[buttonid].background_color = self.getboardcolor(self.destx,self.desty)
+             
+            buttonid = "but"+str(x)+str(y)     
+            self.destx = x
+            self.desty = y
+            if self.whosmove == 'W':
+                self.ids[buttonid].background_color = (1,1,1,1)
+            else:
+                self.ids[buttonid].background_color = (.1,.1,.1,1)
+            return
+        
 
     def movebuttonpress(self, color):
         message = self.ids["messageB"].text
