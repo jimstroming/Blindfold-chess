@@ -3,7 +3,7 @@ BlindChessRoot:
 <BlindChessRoot>:
   canvas.before:
     Color:
-      rgba: 0.54, 0.31, 0.054, 1
+      rgba: 0.5, 0.5, 0.5, 1
     Rectangle:
       pos: self.pos
       size: self.size
@@ -11,26 +11,31 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Label:
+      color: (0.2,0.2,0.2,1)
       text: 'Clock'
       size_hint_x: 1
     Label:
+      color: (0.2,0.2,0.2,1)
       text: 'White Move'
       size_hint_x: 3.5
     Label:
+      color: (0.2,0.2,0.2,1)
       text: 'mistk'
       size_hint_x: 1.5
   BoxLayout:
     size_hint_y: 1
     Button:
       text: 'move'
-      background_color: (0,.6,0,1)
+      color: (0.6,0.6,0.6,1)
+      background_color: (.4,.4,.4,1)
       background_normal: ''
       size_hint_x: 3
     Label:
       size_hint_x: 2
     Button:
       text: 'cancel'
-      background_color: (.6,0,0,1)
+      color: (0.6,0.6,0.6,1)
+      background_color: (.4,.4,.4,1)
       background_normal: '' 
       size_hint_x: 1
   BoxLayout:
@@ -523,25 +528,30 @@ BlindChessRoot:
     size_hint_y: 1
     Button:
       text: 'cancel'
-      background_color: (.6,0,0,1)
+      color: (0.4,0.4,0.4,1)
+      background_color: (.6,.6,.6,1)
       background_normal: '' 
       size_hint_x: 1
     Label:
       size_hint_x: 2
     Button:
       text: 'move'
-      background_color: (0,.6,0,1)
+      color: (0.4,0.4,0.4,1)
+      background_color: (.6,.6,.6,1)
       background_normal: '' 
       size_hint_x: 3
   BoxLayout:
     size_hint_y: 1
     Label:
+      color: (0.8,0.8,0.8,1)
       text: 'clock'
       size_hint_x: 1.5
     Label:
+      color: (0.8,0.8,0.8,1)
       text: 'Your Move'
       size_hint_x: 3.5
     Label:
+      color: (0.8,0.8,0.8,1)
       text: 'mistk'
       size_hint_x: 1
 
