@@ -22,15 +22,30 @@ class BlindChessRoot(BoxLayout):
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
         print "Mookie3"
+        self.blind = 0    # 1 means blind.  0 means show the pieces    
+        print "Mookie4"    
+        self.updateboardui()
+        print "Mookie5"
+        
     def createchessengine(self):
         self.chessengine = ChessEngine() 
-        self.blind = 0    # 1 means blind.  0 means show the pieces
         
     def updateboardui(self): # update the board to match the engine
         for x in range(0,8):
-            for y in range(0.9):
+            for y in range(0,8):
                 stringid = "but"+str(x)+str(y)
-           
+                colorpiece = self.chessengine.getpiece(x,y)
+                buttonid = "but"+str(x)+str(y)
+                if self.blind == 0:
+                    if colorpiece[0] != '0':
+                        if colorpiece[0] == 'B':
+                            self.ids[buttonid].color = (0,0,0,1)
+                        else:
+                            self.ids[buttonid].color = (1,1,1,1)
+                        self.ids[buttonid].text = colorpiece[1]
+                else:
+                    self.ids[buttonid].text = ''
+                    
     def printwookie(self, parameter0, parameter1, parameter2):
         print "WOOKIE", parameter0, parameter1, parameter2
     def buttonpress(self, x, y):
