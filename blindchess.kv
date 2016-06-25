@@ -11,20 +11,24 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Label:
+      id: clockB
       color: (0.2,0.2,0.2,1)
       text: 'Clock'
       size_hint_x: 1
     Label:
+      id: messageB
       color: (0.2,0.2,0.2,1)
       text: 'Press Any Button to Start'
       size_hint_x: 3.5
     Label:
+      id: mistakecountB
       color: (0.2,0.2,0.2,1)
       text: 'mistk'
       size_hint_x: 1.5
   BoxLayout:
     size_hint_y: 1
     Button:
+      id: moveB
       text: 'move'
       color: (0.6,0.6,0.6,1)
       background_color: (.4,.4,.4,1)
@@ -34,6 +38,7 @@ BlindChessRoot:
     Label:
       size_hint_x: 2
     Button:
+      id: cancelB
       text: 'cancel'
       color: (0.6,0.6,0.6,1)
       background_color: (.4,.4,.4,1)
@@ -529,6 +534,7 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Button:
+      id: cancelW
       text: 'cancel'
       color: (0.4,0.4,0.4,1)
       background_color: (.6,.6,.6,1)
@@ -538,6 +544,7 @@ BlindChessRoot:
     Label:
       size_hint_x: 2
     Button:
+      id: moveW
       text: 'move'
       color: (0.4,0.4,0.4,1)
       background_color: (.6,.6,.6,1)
@@ -547,14 +554,17 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Label:
+      id: clockW
       color: (0.8,0.8,0.8,1)
       text: 'clock'
       size_hint_x: 1.5
     Label:
+      id: messageW
       color: (0.8,0.8,0.8,1)
       text: 'Press Any Button to Start'
       size_hint_x: 3.5
     Label:
+      id: mistakecountW
       color: (0.8,0.8,0.8,1)
       text: 'mistk'
       size_hint_x: 1
