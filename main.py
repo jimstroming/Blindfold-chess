@@ -105,6 +105,10 @@ class BlindChessRoot(BoxLayout):
             if self.state == "looking for source" and self.sourcex != -1:
                 self.state = "looking for destination"
                 return
+            if self.state == "looking for destination" and self.destx != -1:
+                self.state = "check the move"
+                # check if the move is legal
+                return
                 
     def cancelbuttonpress(self, color):
         message = self.ids["messageB"].text
