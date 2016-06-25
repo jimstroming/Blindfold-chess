@@ -21,7 +21,7 @@ class BlindChessRoot(BoxLayout):
         self.ids["messageB"].text = 'Black Move'
         self.blind = 0    # 1 means blind.  0 means show the pieces       
         self.updateboardui()
-        self.whosmove = 'W' # white moves first
+        self.whosemove = 'W' # white moves first
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
         self.destx = -1
@@ -70,7 +70,7 @@ class BlindChessRoot(BoxLayout):
             buttonid = "but"+str(x)+str(y)     
             self.sourcex = x
             self.sourcey = y
-            if self.whosmove == 'W':
+            if self.whosemove == 'W':
                 self.ids[buttonid].background_color = (.9,.9,.9,1)
             else:
                 self.ids[buttonid].background_color = (.1,.1,.1,1)
@@ -88,7 +88,7 @@ class BlindChessRoot(BoxLayout):
             buttonid = "but"+str(x)+str(y)     
             self.destx = x
             self.desty = y
-            if self.whosmove == 'W':
+            if self.whosemove == 'W':
                 self.ids[buttonid].background_color = (1,1,1,1)
             else:
                 self.ids[buttonid].background_color = (.1,.1,.1,1)
@@ -100,26 +100,31 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press Any Button to Start':
             self.initialsetup()
             return
-        if self.whosmove == color:
+        if self.whosemove == color:
             if self.state == "looking for source" and self.sourcex != -1:
                 self.state = "looking for destination"
                 return
             if self.state == "looking for destination" and self.destx != -1:
                 # check if the move is legal
-                validmove = self.chessengine.checkifvalidmove(self.whosmove, self.sourcex, 
+                validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
                                     self.sourcey, self.destx, self.desty)
                 if validmove:  
-                    pass
-                    # make the move
-                    # flip color to other guys move
-                    # set the state
+                    print "DAGWOOD1"
+                    self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
+                                    self.destx, self.desty)
+                    print "DAGWOOD2"
+                    if self.whosemove == 'B':
+                        self.whosemove = 'W'
+                    else:
+                        self.whosemove = 'B'
+                    print "DAGWOOD4"
                 else:
                     pass
                     # increase invalid move count
-                    # set the state
                 # reset both the cursors ui
                 # rest the source and destination
                 # redraw the board
+                # set the state
                 return
                 
     def cancelbuttonpress(self, color):

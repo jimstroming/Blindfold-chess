@@ -163,7 +163,6 @@ class ChessEngine(object):
 
     def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
         piece = board[sourcey][sourcex]
-        pdb.set_trace()
         if piece[1] == 'r': piece = piece[0]+'R'
         if piece[1] == 'k': piece = piece[0]+'K'
         if piece[1] == 'p': piece = piece[0]+'P'
