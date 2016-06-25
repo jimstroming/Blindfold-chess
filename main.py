@@ -16,16 +16,11 @@ class DarkGreyButton(BoxLayout):
 class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
-        print "Mookie1"
         self.createchessengine()
-        print "Mookie2"
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
-        print "Mookie3"
-        self.blind = 0    # 1 means blind.  0 means show the pieces    
-        print "Mookie4"    
+        self.blind = 0    # 1 means blind.  0 means show the pieces       
         self.updateboardui()
-        print "Mookie5"
         self.whosmove = 'W' # white moves first
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
