@@ -5,19 +5,28 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Label:
+      text: 'Clock'
       size_hint_x: 1
     Label:
+      text: 'White Move'
       size_hint_x: 3.5
     Label:
+      text: 'mistk'
       size_hint_x: 1.5
   BoxLayout:
     size_hint_y: 1
     Button:
-      size_hint_x: 1
-    Button:
+      text: 'move'
+      background_color: (0,.6,0,1)
+      background_normal: ''
+      size_hint_x: 3
+    Label:
       size_hint_x: 2
     Button:
-      size_hint_x: 3
+      text: 'cancel'
+      background_color: (.6,0,0,1)
+      background_normal: '' 
+      size_hint_x: 1
   BoxLayout:
     size_hint_y: 0.2   
 
@@ -507,35 +516,29 @@ BlindChessRoot:
   BoxLayout:
     size_hint_y: 1
     Button:
+      text: 'cancel'
+      background_color: (.6,0,0,1)
+      background_normal: '' 
       size_hint_x: 1
-    Button:
+    Label:
       size_hint_x: 2
     Button:
+      text: 'move'
+      background_color: (0,.6,0,1)
+      background_normal: '' 
       size_hint_x: 3
   BoxLayout:
     size_hint_y: 1
     Label:
+      text: 'clock'
       size_hint_x: 1.5
     Label:
+      text: 'Your Move'
       size_hint_x: 3.5
     Label:
+      text: 'mistk'
       size_hint_x: 1
 
-    
-<LightGreyButton>:
-  Button:
-    id: greybut
-    color: (0,0,0,1)
-    text: 'Q'
-    background_color: (.6,.6,.6,1)
-    background_normal: '' 
-    on_press:root.changetext() 
-    
-<DarkGreyButton@BoxLayout>:
-  Button:
-    background_color: (.4,.4,.4,1)
-    background_normal: '' 
-    on_press:app.root.printwookie(root.x,root.y,root.size[0]) 
 
     
     
