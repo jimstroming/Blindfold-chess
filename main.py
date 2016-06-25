@@ -17,9 +17,10 @@ class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
         print "Mookie1"
-        createchessengine()
+        self.createchessengine()
         print "Mookie2"
-        # gamesetup = 1
+        self.ids["messageW"].text = 'Your Move'
+        self.ids["messageB"].text = 'Black Move'
         print "Mookie3"
     def createchessengine(self):
         self.chessengine = ChessEngine() 
@@ -33,17 +34,24 @@ class BlindChessRoot(BoxLayout):
     def printwookie(self, parameter0, parameter1, parameter2):
         print "WOOKIE", parameter0, parameter1, parameter2
     def buttonpress(self, x, y):
+        message = self.ids["messageB"].text
+        if message == 'Press Any Button to Start':
+            self.initialsetup()
+            return    
         self.ids["but"+str(x)+str(y)].text = 'S'
         self.ids["but"+str(x)+str(y)].background_color = (0,.3,0,1)
         self.ids["but"+str(x)+str(y)].color = (1,1,1,1)
     def movebuttonpress(self, color):
-        print "Mookie1a"
-        #if not gamesetup:
-        #    print "Mookie2a"
-        #    self.initialsetup()
-        #    return
+        message = self.ids["messageB"].text
+        if message == 'Press Any Button to Start':
+            self.initialsetup()
+            return
         pass
     def cancelbuttonpress(self, color):
+        message = self.ids["messageB"].text
+        if message == 'Press Any Button to Start':
+            self.initialsetup()
+            return
         pass
 
 
