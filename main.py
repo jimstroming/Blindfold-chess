@@ -26,6 +26,13 @@ class BlindChessRoot(BoxLayout):
         print "Mookie4"    
         self.updateboardui()
         print "Mookie5"
+        self.whosmove = 'W' # white moves first
+        self.sourcex = -1  # set the source and destination to none
+        self.sourcey = -1 
+        self.destx = -1
+        self.desty = -1
+        self.state = "looking for source"
+        
         
     def createchessengine(self):
         self.chessengine = ChessEngine() 
@@ -46,16 +53,34 @@ class BlindChessRoot(BoxLayout):
                 else:
                     self.ids[buttonid].text = ''
                     
+    def getboardcolor(self,x,y):
+        if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
+            return (0.4,0.4,0.4,1)
+        else:
+            return (0.6,0.6,0.6,1)                 
+                    
     def printwookie(self, parameter0, parameter1, parameter2):
         print "WOOKIE", parameter0, parameter1, parameter2
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
         if message == 'Press Any Button to Start':
             self.initialsetup()
-            return    
-        self.ids["but"+str(x)+str(y)].text = 'S'
-        self.ids["but"+str(x)+str(y)].background_color = (0,.3,0,1)
-        self.ids["but"+str(x)+str(y)].color = (1,1,1,1)
+            return 
+            
+        if self.state == "looking for source":
+            # check if we need to erase the previous selected source
+            if self.sourcex != -1:
+                buttonid = buttonid = "but"+str(self.sourcex)+str(self.sourcey)
+                self.ids[buttonid].background_color = self.getboardcolor(self.sourcex,self.sourcey)
+             
+            buttonid = "but"+str(x)+str(y)     
+            self.sourcex = x
+            self.sourcey = y
+            if self.whosmove == 'W':
+                self.ids[buttonid].background_color = (.9,.9,.9,1)
+            else:
+                self.ids[buttonid].background_color = (.1,.1,.1,1)
+
     def movebuttonpress(self, color):
         message = self.ids["messageB"].text
         if message == 'Press Any Button to Start':
