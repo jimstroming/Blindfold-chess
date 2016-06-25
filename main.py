@@ -86,7 +86,11 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press Any Button to Start':
             self.initialsetup()
             return
-        pass
+        if self.whosmove == color:
+            if self.state == "looking for source" and self.sourcex != -1:
+                self.state = "looking for destination"
+                return
+                
     def cancelbuttonpress(self, color):
         message = self.ids["messageB"].text
         if message == 'Press Any Button to Start':
