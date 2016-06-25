@@ -1,6 +1,12 @@
 BlindChessRoot:
 
 <BlindChessRoot>:
+  canvas.before:
+    Color:
+      rgba: 0.54, 0.31, 0.054, 1
+    Rectangle:
+      pos: self.pos
+      size: self.size
   orientation: "vertical"
   BoxLayout:
     size_hint_y: 1
