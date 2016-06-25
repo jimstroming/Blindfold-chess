@@ -30,6 +30,7 @@ BlindChessRoot:
       background_color: (.4,.4,.4,1)
       background_normal: ''
       size_hint_x: 3
+      on_press:app.root.movebuttonpress('B')
     Label:
       size_hint_x: 2
     Button:
@@ -38,6 +39,7 @@ BlindChessRoot:
       background_color: (.4,.4,.4,1)
       background_normal: '' 
       size_hint_x: 1
+      on_press:app.root.cancelbuttonpress('B')
   BoxLayout:
     size_hint_y: 0.2   
 
@@ -532,6 +534,7 @@ BlindChessRoot:
       background_color: (.6,.6,.6,1)
       background_normal: '' 
       size_hint_x: 1
+      on_press:app.root.cancelbuttonpress('B')
     Label:
       size_hint_x: 2
     Button:
@@ -540,6 +543,7 @@ BlindChessRoot:
       background_color: (.6,.6,.6,1)
       background_normal: '' 
       size_hint_x: 3
+      on_press:app.root.movebuttonpress('B')
   BoxLayout:
     size_hint_y: 1
     Label:

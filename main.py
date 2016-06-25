@@ -17,7 +17,10 @@ class BlindChessRoot(BoxLayout):
         self.ids["but"+str(x)+str(y)].text = 'S'
         self.ids["but"+str(x)+str(y)].background_color = (0,.3,0,1)
         self.ids["but"+str(x)+str(y)].color = (1,1,1,1)
-    
+    def movebuttonpress(self, color):
+        pass
+    def cancelbuttonpress(self, color):
+        pass
 
 
 class BlindChessApp(App):
