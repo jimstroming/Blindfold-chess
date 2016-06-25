@@ -3,16 +3,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
 from chess import ChessEngine
 
-
-class LightGreyButton(BoxLayout):   
-    def changetext(self):
-        self.ids["greybut"].text = 'R'
-        self.ids["greybut"].background_color = (.3,0,0,1)
-        self.ids["greybut"].color = (1,1,1,1)
-
-class DarkGreyButton(BoxLayout):   
-    pass
-
 class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
@@ -53,8 +43,6 @@ class BlindChessRoot(BoxLayout):
         else:
             return (0.6,0.6,0.6,1)                 
                     
-    def printwookie(self, parameter0, parameter1, parameter2):
-        print "WOOKIE", parameter0, parameter1, parameter2
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
         if message == 'Press Any Button to Start':
@@ -109,15 +97,12 @@ class BlindChessRoot(BoxLayout):
                 validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
                                     self.sourcey, self.destx, self.desty)
                 if validmove:  
-                    print "DAGWOOD1"
                     self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
                                     self.destx, self.desty)
-                    print "DAGWOOD2"
                     if self.whosemove == 'B':
                         self.whosemove = 'W'
                     else:
                         self.whosemove = 'B'
-                    print "DAGWOOD4"
                 else:
                     pass
                     # increase invalid move count
