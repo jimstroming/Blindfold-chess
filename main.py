@@ -1,6 +1,8 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import NumericProperty
 from chess import ChessEngine
+
 
 class LightGreyButton(BoxLayout):   
     def changetext(self):
@@ -12,8 +14,12 @@ class DarkGreyButton(BoxLayout):
     pass
 
 class BlindChessRoot(BoxLayout):
-
-    def createchessengine(self, chessengine):
+    gamesetup = NumericProperty(0)  # 0 means we need to setup the game
+    
+    
+    def initialsetup(self):  # called at the beginning of the game
+        createchessengine()
+    def createchessengine(self):
         self.chessengine = ChessEngine()    
     def printwookie(self, parameter0, parameter1, parameter2):
         print "WOOKIE", parameter0, parameter1, parameter2
