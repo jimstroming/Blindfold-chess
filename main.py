@@ -84,6 +84,23 @@ class BlindChessRoot(BoxLayout):
     def updatemessage(self,message,color):
         labelid = "message"+color 
         self.ids[labelid].text = message
+    
+    def resetaftermove(self):
+        # reset both the cursors ui
+        if self.sourcex != -1:
+            self.resetsquarebackground(self.sourcex,self.sourcey)
+        if self.destx != -1:    
+            self.resetsquarebackground(self.destx,self.desty)
+        # reset the source and destination
+        self.sourcex = -1
+        self.sourcey = -1
+        self.destx = -1
+        self.desty = -1
+        # redraw the board
+        self.updateboardui()
+        # set the state
+        self.state = "looking for source"
+        
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
@@ -147,18 +164,7 @@ class BlindChessRoot(BoxLayout):
                     self.setwidgetbackgroundcolors() 
                 else:
                     self.increasemistakecount(self.whosemove)
-                # reset both the cursors ui
-                self.resetsquarebackground(self.sourcex,self.sourcey)
-                self.resetsquarebackground(self.destx,self.desty)
-                # reset the source and destination
-                self.sourcex = -1
-                self.sourcey = -1
-                self.destx = -1
-                self.desty = -1
-                # redraw the board
-                self.updateboardui()
-                # set the state
-                self.state = "looking for source"
+                self.resetaftermove()
                 return
                 
     def cancelbuttonpress(self, color):
@@ -166,7 +172,7 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press Any Button to Start':
             self.initialsetup()
             return
-        pass  # (STILL NEED TO WRITE)
+        self.resetaftermove()
 
 
 class BlindChessApp(App):
