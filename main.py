@@ -8,6 +8,12 @@ class BlindChessRoot(BoxLayout):
     def initialsetup(self):  # called at the beginning of the game
         print "DAGWOOD BOOT"
         self.createchessengine()
+        self.purewhite   = ( 1,   1,  1, 1)
+        self.brightwhite = (0.9,0.9,0.9, 1)
+        self.lightgray   = (0.6,0.6,0.6, 1)
+        self.darkgray    = (0.4,0.4,0.4, 1)   
+        self.darkblack   = (0.1,0.1,0.1, 1)     
+        self.pureblack   = ( 0,   0,  0, 1)
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
         self.blind = 0    # 1 means blind.  0 means show the pieces       
@@ -30,18 +36,18 @@ class BlindChessRoot(BoxLayout):
                 buttonid = "but"+str(x)+str(y)
                 if self.blind == 0 and colorpiece[0] != '0':
                     if colorpiece[0] == 'B':
-                        self.ids[buttonid].color = (0,0,0,1)
+                        self.ids[buttonid].color = self.pureblack
                     else:
-                        self.ids[buttonid].color = (1,1,1,1)
+                        self.ids[buttonid].color = self.purewhite
                     self.ids[buttonid].text = colorpiece[1]
                 else:
                     self.ids[buttonid].text = ''
                     
     def getboardcolor(self,x,y):
         if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
-            return (0.4,0.4,0.4,1)
+            return self.darkgray
         else:
-            return (0.6,0.6,0.6,1)    
+            return self.lightgray    
             
     def resetsquarebackground(self,x,y):
         buttonid = buttonid = "but"+str(x)+str(y)
@@ -55,8 +61,8 @@ class BlindChessRoot(BoxLayout):
         self.ids[labelid].text = str(mistakecount) # convert to a string and update
         
     def updatebothmessages(self, message, colortodraw):
-        colorvalue = (1,1,1,1)
-        if colortodraw == 'B' : colorvalue = (0,0,0,1)
+        colorvalue = self.purewhite
+        if colortodraw == 'B' : colorvalue = self.pureblack
         self.ids['messageW'].text = message
         self.ids['messageB'].text = message
         self.ids['messageW'].color = colorvalue
@@ -77,9 +83,9 @@ class BlindChessRoot(BoxLayout):
             self.sourcex = x
             self.sourcey = y
             if self.whosemove == 'W':
-                self.ids[buttonid].background_color = (.9,.9,.9,1)
+                self.ids[buttonid].background_color = self.brightwhite
             else:
-                self.ids[buttonid].background_color = (.1,.1,.1,1)
+                self.ids[buttonid].background_color = self.darkblack
             self.state = "looking for destination"
             return
             
@@ -95,9 +101,9 @@ class BlindChessRoot(BoxLayout):
             self.destx = x
             self.desty = y
             if self.whosemove == 'W':
-                self.ids[buttonid].background_color = (1,1,1,1)
+                self.ids[buttonid].background_color = self.purewhite
             else:
-                self.ids[buttonid].background_color = (0,0,0,1)
+                self.ids[buttonid].background_color = self.pureblack
             return
         
 
