@@ -19,6 +19,7 @@ class BlindChessRoot(BoxLayout):
         self.blind = 0    # 1 means blind.  0 means show the pieces       
         self.updateboardui()
         self.whosemove = 'W' # white moves first
+        self.setwidgetbackgroundcolors()
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
         self.destx = -1
@@ -47,8 +48,20 @@ class BlindChessRoot(BoxLayout):
         if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
             return self.darkgray
         else:
-            return self.lightgray    
+            return self.lightgray  
             
+    def setwidgetbackgroundcolors(self):
+        if self.whosemove == 'W': 
+            blackcolor = self.darkgray
+            whitecolor = self.brightwhite
+        else:
+            blackcolor = self.darkblack
+            whitecolor = self.lightgray
+        self.ids["moveB"].background_color = blackcolor
+        self.ids["cancelB"].background_color = blackcolor
+        self.ids["moveW"].background_color = whitecolor
+        self.ids["cancelW"].background_color = whitecolor
+        
     def resetsquarebackground(self,x,y):
         buttonid = buttonid = "but"+str(x)+str(y)
         self.ids[buttonid].background_color = self.getboardcolor(x,y)
@@ -131,6 +144,7 @@ class BlindChessRoot(BoxLayout):
                         self.whosemove = 'W'
                     else:
                         self.whosemove = 'B'
+                    self.setwidgetbackgroundcolors() 
                 else:
                     self.increasemistakecount(self.whosemove)
                 # reset both the cursors ui
