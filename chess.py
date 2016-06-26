@@ -71,8 +71,8 @@ class ChessEngine(object):
         # 0-0-0    # queenside castling
         
         notationstring = ""
-        ranks = ['1','2','3','4','5','6','7','8']
-        files = ['a','b','c','d','e','f','g','h']
+        ranks = ['1','2','3','4','5','6','7','8'] # bottom to top
+        files = ['a','b','c','d','e','f','g','h'] # left go right
         enpassant = False
         
         # get the piece
@@ -92,7 +92,7 @@ class ChessEngine(object):
             else:
                 notationstring = "0-0"   # kingside casting   
         else:
-            notationstring = piece+files[sourcey]+ranks[sourcex]
+            notationstring = piece+files[sourcex]+ranks[sourcey]
             if piece != '': notationstring += ' '
             notationstring += piece
             # check for enpassant capture
@@ -104,7 +104,7 @@ class ChessEngine(object):
             destcolor = destcolorpiece[0]
             if destcolor != '0' and destcolor != color:
                 notationstring += 'x'
-            notationstring +=  files[desty]+ranks[destx]  
+            notationstring +=  files[destx]+ranks[desty]  
             # check if now in check
             newboard = deepcopy(self.board)  
             self.updateboardinplace(sourcex, sourcey, destx, desty,newboard)
