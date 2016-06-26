@@ -14,18 +14,39 @@ BlindChessRoot:
       id: clockB
       color: (0.2,0.2,0.2,1)
       text: 'Clock'
-      size_hint_x: 1
+      size_hint_x: 1.5
+      canvas.before:
+        PushMatrix
+        Rotate:
+          angle: 180
+          origin: self.center
+      canvas.after:
+        PopMatrix
     Label:
       id: messageB
       color: (0.2,0.2,0.2,1)
       text: 'Press a Button to Start'
       size_hint_x: 3.5
+      canvas.before:
+        PushMatrix
+        Rotate:
+          angle: 180
+          origin: self.center
+      canvas.after:
+        PopMatrix
     Label:
       id: mistakecountB
       color: (0.2,0.2,0.2,1)
       font_size: '30dp'
       text: '0'
-      size_hint_x: 1.5
+      size_hint_x: 1
+      canvas.before:
+        PushMatrix
+        Rotate:
+          angle: 180
+          origin: self.center
+      canvas.after:
+        PopMatrix
   BoxLayout:
     size_hint_y: 1
     Button:
@@ -36,6 +57,13 @@ BlindChessRoot:
       background_normal: ''
       size_hint_x: 3
       on_press:app.root.movebuttonpress('B')
+      canvas.before:
+        PushMatrix
+        Rotate:
+          angle: 180
+          origin: self.center
+      canvas.after:
+        PopMatrix
     Label:
       size_hint_x: 2
     Button:
@@ -46,6 +74,14 @@ BlindChessRoot:
       background_normal: '' 
       size_hint_x: 1
       on_press:app.root.cancelbuttonpress('B')
+      canvas.before:
+        PushMatrix
+        Rotate:
+          angle: 180
+          origin: self.center
+      canvas.after:
+        PopMatrix
+
   BoxLayout:
     size_hint_y: 0.2   
 
