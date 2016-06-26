@@ -41,7 +41,11 @@ class BlindChessRoot(BoxLayout):
         if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
             return (0.4,0.4,0.4,1)
         else:
-            return (0.6,0.6,0.6,1)                 
+            return (0.6,0.6,0.6,1)    
+            
+    def resetsquarebackground(self,x,y):
+        buttonid = buttonid = "but"+str(self.sourcex)+str(self.sourcey)
+        self.ids[buttonid].background_color = self.getboardcolor(self.sourcex,self.sourcey)             
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
