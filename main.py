@@ -49,12 +49,22 @@ class BlindChessRoot(BoxLayout):
         
     def increasemistakecount(self,color):
         # read the mistake count and convert to a number
-        print "DAGWOOD1"
         labelid = "mistakecount"+color 
         mistakecount = int(self.ids[labelid].text) 
         mistakecount += 1 # increment
-        print "DAGWOOD4"
         self.ids[labelid].text = str(mistakecount) # convert to a string and update
+        
+    def updatebothmessages(self, message, colortodraw):
+        colorvalue = (1,1,1,1)
+        if colortodraw == 'B' : colorvalue = (0,0,0,1)
+        self.ids['messageW'].text = message
+        self.ids['messageB'].text = message
+        self.ids['messageW'].color = colorvalue
+        self.ids['messageB'].color = colorvalue
+        
+    def updatemessage(self,message,color):
+        labelid = "message"+color 
+        self.ids[labelid].text = message
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
@@ -104,8 +114,13 @@ class BlindChessRoot(BoxLayout):
                 validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
                                     self.sourcey, self.destx, self.desty)
                 if validmove:  
+                    movestring = self.chessengine.getmovenotation(self.sourcex, self.sourcey, 
+                                    self.destx, self.desty) # get the move notation
+                    self.updatebothmessages(movestring,self.whosemove)
+                    print "DAGWOOD10"
                     self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
                                     self.destx, self.desty)
+                    print "DAGWOOD11"                
                     if self.whosemove == 'B': # switch the players turn
                         self.whosemove = 'W'
                     else:
