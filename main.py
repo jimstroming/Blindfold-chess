@@ -46,6 +46,15 @@ class BlindChessRoot(BoxLayout):
     def resetsquarebackground(self,x,y):
         buttonid = buttonid = "but"+str(x)+str(y)
         self.ids[buttonid].background_color = self.getboardcolor(x,y)
+        
+    def increasemistakecount(self,color):
+        # read the mistake count and convert to a number
+        print "DAGWOOD1"
+        labelid = "mistakecount"+color 
+        mistakecount = int(self.ids[labelid].text) 
+        mistakecount += 1 # increment
+        print "DAGWOOD4"
+        self.ids[labelid].text = str(mistakecount) # convert to a string and update
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
@@ -102,8 +111,7 @@ class BlindChessRoot(BoxLayout):
                     else:
                         self.whosemove = 'B'
                 else:
-                    pass
-                    # increase invalid move count (STILL NEED TO WRITE)
+                    self.increasemistakecount(self.whosemove)
                 # reset both the cursors ui
                 self.resetsquarebackground(self.sourcex,self.sourcey)
                 self.resetsquarebackground(self.destx,self.desty)
