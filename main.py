@@ -104,7 +104,7 @@ class BlindChessRoot(BoxLayout):
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
-        if message == 'Press Any Button to Start':
+        if message == 'Press a Button to Start':
             self.initialsetup()
             return 
             
@@ -139,7 +139,7 @@ class BlindChessRoot(BoxLayout):
 
     def movebuttonpress(self, color):
         message = self.ids["messageB"].text
-        if message == 'Press Any Button to Start':
+        if message == 'Press a Button to Start':
             self.initialsetup()
             return
         if self.whosemove == color:
@@ -169,7 +169,7 @@ class BlindChessRoot(BoxLayout):
                 
     def cancelbuttonpress(self, color):
         message = self.ids["messageB"].text
-        if message == 'Press Any Button to Start':
+        if message == 'Press a Button to Start':
             self.initialsetup()
             return
         self.resetaftermove()
