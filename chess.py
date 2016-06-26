@@ -150,23 +150,24 @@ class ChessEngine(object):
         return False    
         
     def checkforpawnpromotion(self,color):
-        # need to write this.
-        # need on routine to detect the pawn promotion
+        # need one routine to detect the pawn promotion
         # another routine to promote the piece, since the user
         # will need to select which piece they want
         # they will likely want a queen
-        # they may instead what a knight
+        # they may instead want a knight
         # they could conceivably want an even lesser piece
         # to avoid a stalemate.
-        return False    
+        y = 0
+        if color == 'W': y = 7
+        for x in range(0,8):
+            colorpiece = self.board[y][x]
+            if colorpiece[1] == 'P':
+                return x,y
+        return -1,-1    
         
-    def promotepawn(self, colorpiece):
-        # need to write this, the routine that actually promotes the pawn
-        if len(self.pawntopromote) != 2: return False
-        x = self.pawntopromote[0]
-        y = self.pawntopromote[1]
+    def promotepawn(self,color,piece,x,y):
+        colorpiece = color+piece
         self.board[y][x] = colorpiece
-        self.pawntopromte = []
         return True
 
     def updateboardinplace(self,sourcex,sourcey,destx,desty,board):
