@@ -79,7 +79,7 @@ class BlindChessRoot(BoxLayout):
             if self.whosemove == 'W':
                 self.ids[buttonid].background_color = (1,1,1,1)
             else:
-                self.ids[buttonid].background_color = (.1,.1,.1,1)
+                self.ids[buttonid].background_color = (0,0,0,1)
             return
         
 
