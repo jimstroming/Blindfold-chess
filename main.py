@@ -44,8 +44,8 @@ class BlindChessRoot(BoxLayout):
             return (0.6,0.6,0.6,1)    
             
     def resetsquarebackground(self,x,y):
-        buttonid = buttonid = "but"+str(self.sourcex)+str(self.sourcey)
-        self.ids[buttonid].background_color = self.getboardcolor(self.sourcex,self.sourcey)             
+        buttonid = buttonid = "but"+str(x)+str(y)
+        self.ids[buttonid].background_color = self.getboardcolor(x,y)
                     
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
@@ -54,10 +54,6 @@ class BlindChessRoot(BoxLayout):
             return 
             
         if self.state == "looking for source":
-            # check if we need to erase the previous selected source
-            if self.sourcex != -1:
-                self.resetsquarebackground(self.sourcex,self.sourcey)
-             
             buttonid = "but"+str(x)+str(y)     
             self.sourcex = x
             self.sourcey = y
@@ -65,6 +61,7 @@ class BlindChessRoot(BoxLayout):
                 self.ids[buttonid].background_color = (.9,.9,.9,1)
             else:
                 self.ids[buttonid].background_color = (.1,.1,.1,1)
+            self.state = "looking for destination"
             return
             
         if self.state == "looking for destination":
@@ -91,8 +88,7 @@ class BlindChessRoot(BoxLayout):
             self.initialsetup()
             return
         if self.whosemove == color:
-            if self.state == "looking for source" and self.sourcex != -1:
-                self.state = "looking for destination"
+            if self.state == "looking for source": # need a destination
                 return
             if self.state == "looking for destination" and self.destx != -1:
                 # check if the move is legal
