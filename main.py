@@ -56,8 +56,7 @@ class BlindChessRoot(BoxLayout):
         if self.state == "looking for source":
             # check if we need to erase the previous selected source
             if self.sourcex != -1:
-                buttonid = buttonid = "but"+str(self.sourcex)+str(self.sourcey)
-                self.ids[buttonid].background_color = self.getboardcolor(self.sourcex,self.sourcey)
+                self.resetsquarebackground(self.sourcex,self.sourcey)
              
             buttonid = "but"+str(x)+str(y)     
             self.sourcex = x
@@ -74,8 +73,7 @@ class BlindChessRoot(BoxLayout):
         
             # check if we need to erase the previous destination source
             if self.destx != -1:
-                buttonid = buttonid = "but"+str(self.destx)+str(self.desty)
-                self.ids[buttonid].background_color = self.getboardcolor(self.destx,self.desty)
+                self.resetsquarebackground(self.destx,self.desty)
              
             buttonid = "but"+str(x)+str(y)     
             self.destx = x
