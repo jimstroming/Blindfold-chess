@@ -79,6 +79,8 @@ class ChessEngine(object):
         colorpiece = self.board[sourcey][sourcex]
         color = colorpiece[0]
         piece = colorpiece[1]
+        oppcolor = 'W'
+        if color == 'W': oppcolor = 'B'
         if piece == 'r': piece = 'R'
         if piece == 'p' or piece == 'P': piece = ''
         if piece == 'k': piece = 'K'
@@ -106,12 +108,11 @@ class ChessEngine(object):
             # check if now in check
             newboard = deepcopy(self.board)  
             self.updateboardinplace(sourcex, sourcey, destx, desty,newboard)
-            if self.checkifincheck(color, newboard):
+            if self.checkifincheck(oppcolor, newboard):
                 notationstring += '+'
         return notationstring   
     
     def checkifvalidmove(self, color, sourcex, sourcey, destx, desty):
-        print "DAGWOOD checkifvalidmove"
         # if players piece not selected return False
         colorpiece = self.board[sourcey][sourcex]
         if colorpiece[0] != color:
@@ -136,12 +137,13 @@ class ChessEngine(object):
     def checkifincheck(self, color, board):  # this did not work.  Why?
         # find the king
         kingx,kingy = self.findoneoftwopieces(color+'K', color+'k',board)
-        print 'DAGWOOD checkifincheck'
-        print 'king at',kingx,kingy
+        #print 'DAGWOOD checkifincheck2'
         for y in range(0,8):
+            #print 'DAGWOOD3 ',y
             for x in range(0,8):
+                #print 'DAGWOOD4 ',x
                 # see if opponent piece can move to king
-                piecetocheck = self.board[y][x]
+                piecetocheck = board[y][x]
                 if piecetocheck[0] != '0' and piecetocheck[0] != color:
                     if self.checkifmoveispossibledest(x,y,kingx,kingy,board):
                         return True
@@ -186,15 +188,10 @@ class ChessEngine(object):
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
-        print "DAGWOOD checkifmoveispossibledest"
         colorpiece = board[sourcey][sourcex]
-        print colorpiece
         piececolor = colorpiece[0]
         piecetype  = colorpiece[1]
-        print piececolor
-        print piecetype
         potentialmoves = self.moverules[colorpiece] 
-        print potentialmoves  
         if colorpiece[1] == 'P' or colorpiece[1] == 'p':      
             # handle the pawn separately from the other pieces
             for moverule in potentialmoves:
@@ -222,6 +219,7 @@ class ChessEngine(object):
     
         # not a pawn
         for moverule in potentialmoves:
+            #print "DAGWOODMANB3 moverule: ", moverule
             checkx = sourcex
             checky = sourcey
             print moverule
