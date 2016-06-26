@@ -27,13 +27,12 @@ class BlindChessRoot(BoxLayout):
                 stringid = "but"+str(x)+str(y)
                 colorpiece = self.chessengine.getpiece(x,y)
                 buttonid = "but"+str(x)+str(y)
-                if self.blind == 0:
-                    if colorpiece[0] != '0':
-                        if colorpiece[0] == 'B':
-                            self.ids[buttonid].color = (0,0,0,1)
-                        else:
-                            self.ids[buttonid].color = (1,1,1,1)
-                        self.ids[buttonid].text = colorpiece[1]
+                if self.blind == 0 and colorpiece[0] != '0':
+                    if colorpiece[0] == 'B':
+                        self.ids[buttonid].color = (0,0,0,1)
+                    else:
+                        self.ids[buttonid].color = (1,1,1,1)
+                    self.ids[buttonid].text = colorpiece[1]
                 else:
                     self.ids[buttonid].text = ''
                     
@@ -97,17 +96,25 @@ class BlindChessRoot(BoxLayout):
                 if validmove:  
                     self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
                                     self.destx, self.desty)
-                    if self.whosemove == 'B':
+                    if self.whosemove == 'B': # switch the players turn
                         self.whosemove = 'W'
                     else:
                         self.whosemove = 'B'
                 else:
                     pass
-                    # increase invalid move count
+                    # increase invalid move count (STILL NEED TO WRITE)
                 # reset both the cursors ui
-                # rest the source and destination
+                self.resetsquarebackground(self.sourcex,self.sourcey)
+                self.resetsquarebackground(self.destx,self.desty)
+                # reset the source and destination
+                self.sourcex = -1
+                self.sourcey = -1
+                self.destx = -1
+                self.desty = -1
                 # redraw the board
+                self.updateboardui()
                 # set the state
+                self.state = "looking for source"
                 return
                 
     def cancelbuttonpress(self, color):
