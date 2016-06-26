@@ -6,6 +6,7 @@ from chess import ChessEngine
 class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
+        print "DAGWOOD BOOT"
         self.createchessengine()
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
@@ -122,7 +123,7 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press Any Button to Start':
             self.initialsetup()
             return
-        pass
+        pass  # (STILL NEED TO WRITE)
 
 
 class BlindChessApp(App):

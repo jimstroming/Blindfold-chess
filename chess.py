@@ -111,26 +111,32 @@ class ChessEngine(object):
         return notationstring   
     
     def checkifvalidmove(self, color, sourcex, sourcey, destx, desty):
+        print "DAGWOOD checkifvalidmove"
         # if players piece not selected return False
         colorpiece = self.board[sourcey][sourcex]
         if colorpiece[0] != color:
             print 'wrong color'
             return False
         # if destination not in possible destinations return False
-        return self.checkifmoveispossibledest(sourcex, sourcey, destx, desty, self.board)
+        if not self.checkifmoveispossibledest(sourcex, sourcey, destx, desty, self.board):
+            return False
+        return not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,self.board)
         
     def makevalidmove(self,sourcex, sourcey, destx, desty):
         self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)    
         
-    def findonepiece(self, piece, board):
+    def findoneoftwopieces(self, piece1, piece2, board):
         for y in range(0,8):
-            if piece in board[y]:
-                return board[y].index(piece),y
+            if piece1 in board[y]:
+                return board[y].index(piece1),y
+            if piece2 in board[y]:
+                return board[y].index(piece2),y
         return False,False
         
-    def checkifincheck(self, color, board):
+    def checkifincheck(self, color, board):  # this did not work.  Why?
         # find the king
-        kingx,kingy = self.findonepiece(color+'K',board)
+        kingx,kingy = self.findoneoftwopieces(color+'K', color+'k',board)
+        print 'DAGWOOD checkifincheck'
         print 'king at',kingx,kingy
         for y in range(0,8):
             for x in range(0,8):
@@ -180,6 +186,7 @@ class ChessEngine(object):
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
         # get the piece and color
+        print "DAGWOOD checkifmoveispossibledest"
         colorpiece = board[sourcey][sourcex]
         print colorpiece
         piececolor = colorpiece[0]
@@ -267,7 +274,6 @@ if __name__ == '__main__':
     cb.printboard()
     pdb.set_trace()
     print cb.checkifmoveispossibledest(6,0,7,2,cb.board)
-    print cb.findonepiece('BQ',cb.board)
     print cb.checkifincheck('B',cb.board)
     
     cb.printboard()
