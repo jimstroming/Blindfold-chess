@@ -96,7 +96,7 @@ class ChessEngine(object):
             if piece != '': notationstring += ' '
             notationstring += piece
             # check for enpassant capture
-            if piece == '' and abs(sourcex-destx) == 1 and self.board[sourcy][sourcex] == '00':
+            if piece == '' and abs(sourcex-destx) == 1 and self.board[sourcey][sourcex] == '00':
                 enpassant = True
                 notationstring += 'x'
             # check for capture
@@ -134,7 +134,7 @@ class ChessEngine(object):
                 return board[y].index(piece2),y
         return False,False
         
-    def checkifincheck(self, color, board):  # this did not work.  Why?
+    def checkifincheck(self, color, board):
         # find the king
         kingx,kingy = self.findoneoftwopieces(color+'K', color+'k',board)
         #print 'DAGWOOD checkifincheck2'

@@ -81,9 +81,13 @@ class BlindChessRoot(BoxLayout):
         self.ids['messageW'].color = colorvalue
         self.ids['messageB'].color = colorvalue
         
-    def updatemessage(self,message,color):
-        labelid = "message"+color 
+    def updatemessage(self,message,colortoupdate,colortodraw):
+        labelid = "message"+colortoupdate 
         self.ids[labelid].text = message
+        if colortodraw == 'W':
+            self.ids[labelid].color = self.purewhite
+        else:
+            self.ids[labelid].color = self.pureblack
     
     def resetaftermove(self):
         # reset both the cursors ui
@@ -101,7 +105,37 @@ class BlindChessRoot(BoxLayout):
         # set the state
         self.state = "looking for source"
         
-                    
+    def checkforpawnpromotion(self, color):
+        # check if we need to do pawn promotion
+        # we will start with Queen
+        # The order we will present the promotion options is
+        # Q, N, R, B, 
+        x,y = self.chessengine.checkforpawnpromotion(color)
+        if x == -1: return False
+        self.promotex = x # save pawn promotion coordinates for later
+        self.promotey = y 
+        # redraw the board
+        self.updateboardui()
+        self.updatemessage('Promote to Queen?',color,color)
+        self.state = "Promote to Queen?"
+        return True
+        
+    def promoteprawn(self, color, piece):
+        print "DAGWOOD20"
+        self.chessengine.promotepawn(color,piece,self.promotex,self.promotey)
+        self.movestring += piece 
+        oppcolor = 'B'
+        if color == 'B': oppcolor = 'W'
+        if self.chessengine.checkifincheck(oppcolor,self.chessengine.board): self.movestring += '+'
+        self.updatebothmessages(self.movestring,self.whosemove)
+        if self.whosemove == 'B': # switch the players turn
+            self.whosemove = 'W'
+        else:
+            self.whosemove = 'B'
+        self.setwidgetbackgroundcolors()
+        self.resetaftermove()
+    
+
     def buttonpress(self, x, y):
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
@@ -143,6 +177,10 @@ class BlindChessRoot(BoxLayout):
             self.initialsetup()
             return
         if self.whosemove == color:
+            if 'Promote' in self.state: # need to execute the pawn promotion.
+                piece = self.state[11]
+                self.promoteprawn(self.whosemove,piece)
+                return    
             if self.state == "looking for source": # need a destination
                 return
             if self.state == "looking for destination" and self.destx != -1:
@@ -150,21 +188,22 @@ class BlindChessRoot(BoxLayout):
                 validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
                                     self.sourcey, self.destx, self.desty)
                 if validmove:  
-                    movestring = self.chessengine.getmovenotation(self.sourcex, self.sourcey, 
+                    self.movestring = self.chessengine.getmovenotation(self.sourcex, self.sourcey, 
                                     self.destx, self.desty) # get the move notation
-                    self.updatebothmessages(movestring,self.whosemove)
-                    print "DAGWOOD10"
                     self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
                                     self.destx, self.desty)
-                    print "DAGWOOD11"                
-                    if self.whosemove == 'B': # switch the players turn
-                        self.whosemove = 'W'
-                    else:
-                        self.whosemove = 'B'
-                    self.setwidgetbackgroundcolors() 
+                    print "DAGWOOD11"
+                    if not self.checkforpawnpromotion(self.whosemove):
+                        self.updatebothmessages(self.movestring,self.whosemove)
+                        if self.whosemove == 'B': # switch the players turn
+                            self.whosemove = 'W'
+                        else:
+                            self.whosemove = 'B'
+                        self.setwidgetbackgroundcolors()
+                        self.resetaftermove()
                 else:
                     self.increasemistakecount(self.whosemove)
-                self.resetaftermove()
+                    self.resetaftermove()
                 return
                 
     def cancelbuttonpress(self, color):
