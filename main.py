@@ -179,6 +179,7 @@ class BlindChessRoot(BoxLayout):
         if self.whosemove == color:
             if 'Promote' in self.state: # need to execute the pawn promotion.
                 piece = self.state[11]
+                if piece == 'K': piece = 'N'  # Knight not Night
                 self.promoteprawn(self.whosemove,piece)
                 return    
             if self.state == "looking for source": # need a destination
@@ -211,7 +212,21 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press a Button to Start':
             self.initialsetup()
             return
-        self.resetaftermove()
+        if self.whosemove == color:            
+            if 'Promote' in self.state: # rejected the pawn promotion piece
+                     # need to cycle to the next one
+                if self.state == 'Promote to Queen?':
+                    message = 'Promote to Knight?'
+                elif self.state == 'Promote to Knight?':
+                    message = 'Promote to Rook?'
+                elif self.state == 'Promote to Rook?':
+                    message = 'Promote to Bishop?' 
+                elif self.state == 'Promote to Bishop?':
+                    message = 'Promote to Queen?'   
+                self.updatemessage(message,color,color)
+                self.state = message
+                return    
+            self.resetaftermove()
 
 
 class BlindChessApp(App):
