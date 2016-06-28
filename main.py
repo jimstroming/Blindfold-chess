@@ -30,6 +30,7 @@ class BlindChessRoot(BoxLayout):
         self.ids['clockB'].text = "10:00"
         self.ids['messageW'].font_size = '30dp'
         self.ids['messageB'].font_size = '30dp'
+        self.cancelcount = 0 # pressing cancel 3 times in a row toggles self.blind
         print "DAGWOOD50"
         Clock.schedule_interval(self.updateclocks, 1)
          
@@ -191,6 +192,7 @@ class BlindChessRoot(BoxLayout):
     
 
     def buttonpress(self, x, y):
+        self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -227,6 +229,7 @@ class BlindChessRoot(BoxLayout):
 
     def movebuttonpress(self, color):
         print "DAGWOOD11 - movebuttonpress"
+        self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -263,6 +266,10 @@ class BlindChessRoot(BoxLayout):
                 return
                 
     def cancelbuttonpress(self, color):
+        self.cancelcount += 1
+        if self.cancelcount == 3:
+            self.blind = 1-self.blind
+            self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
