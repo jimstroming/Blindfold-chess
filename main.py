@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
+from kivy.clock import Clock
 from chess import ChessEngine
 
 class BlindChessRoot(BoxLayout):
@@ -25,6 +26,12 @@ class BlindChessRoot(BoxLayout):
         self.destx = -1
         self.desty = -1
         self.state = "looking for source"
+        self.ids['clockW'].text = "10:00"
+        self.ids['clockB'].text = "10:00"
+        self.ids['messageW'].font_size = '30dp'
+        self.ids['messageB'].font_size = '30dp'
+        print "DAGWOOD50"
+        Clock.schedule_interval(self.updateclocks, 1)
          
     def createchessengine(self):
         self.chessengine = ChessEngine() 
@@ -49,6 +56,28 @@ class BlindChessRoot(BoxLayout):
             return self.darkgray
         else:
             return self.lightgray  
+            
+    def updateclocks(self,dt):
+        if self.whosemove == 'W':
+            timestring = self.ids['clockW'].text
+        else:
+            timestring = self.ids['clockB'].text
+            
+        if timestring != '00:00':
+            if timestring[4] != '0':
+                timestring = timestring[0:4]+str(int(timestring[4])-1)
+            else:
+                if timestring[3] != '0':
+                    timestring = timestring[0:3]+str(int(timestring[3])-1)+'9'
+                else:
+                    if timestring[1] != '0':
+                        timestring = timestring[0]+str(int(timestring[1])-1)+timestring[2]+'59'
+                    else:
+                        timestring = str(int(timestring[0])-1)+'9:59'
+        if self.whosemove == 'W':
+            self.ids['clockW'].text = timestring
+        else:
+            self.ids['clockB'].text = timestring            
             
     def setwidgetbackgroundcolors(self):
         if self.whosemove == 'W': 
