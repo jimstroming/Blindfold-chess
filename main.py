@@ -17,7 +17,7 @@ class BlindChessRoot(BoxLayout):
         self.pureblack   = ( 0,   0,  0, 1)
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
-        self.blind = 0    # 1 means blind.  0 means show the pieces       
+        self.blind = 1    # 1 means blind.  0 means show the pieces       
         self.updateboardui()
         self.whosemove = 'W' # white moves first
         self.setwidgetbackgroundcolors()
@@ -51,6 +51,30 @@ class BlindChessRoot(BoxLayout):
                 else:
                     self.ids[buttonid].text = ''
                     
+    def setallfontsred(self):
+        brightred = (1,0,0,1)
+        self.ids['clockW'].color = brightred
+        self.ids['clockB'].color = brightred
+        self.ids['mistakecountW'].color = brightred                
+        self.ids['mistakecountB'].color = brightred                
+        self.ids['moveW'].color = brightred
+        self.ids['moveB'].color = brightred
+        self.ids['cancelW'].color = brightred
+        self.ids['cancelB'].color = brightred
+        
+    def restoreallfonts(self):
+        almostblack = (0.2,0.2,0.2,1)
+        almostwhite = (0.8,0.8,0.8,1)
+        self.ids['clockW'].color = almostwhite
+        self.ids['clockB'].color = almostblack
+        self.ids['mistakecountW'].color = almostwhite                
+        self.ids['mistakecountB'].color = almostblack              
+        self.ids['moveW'].color = self.darkgray
+        self.ids['moveB'].color = self.lightgray
+        self.ids['cancelW'].color = self.darkgray
+        self.ids['cancelB'].color = self.lightgray
+        
+                   
     def getboardcolor(self,x,y):
         if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
             return self.darkgray
@@ -131,6 +155,8 @@ class BlindChessRoot(BoxLayout):
         self.desty = -1
         # redraw the board
         self.updateboardui()
+        # reset the message colors
+        self.restoreallfonts()
         # set the state
         self.state = "looking for source"
         
@@ -233,6 +259,7 @@ class BlindChessRoot(BoxLayout):
                 else:
                     self.increasemistakecount(self.whosemove)
                     self.resetaftermove()
+                    self.setallfontsred()
                 return
                 
     def cancelbuttonpress(self, color):
