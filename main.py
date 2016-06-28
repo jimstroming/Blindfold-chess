@@ -145,8 +145,8 @@ class BlindChessRoot(BoxLayout):
         self.promotey = y 
         # redraw the board
         self.updateboardui()
-        self.updatemessage('Promote to Queen?',color,color)
-        self.state = "Promote to Queen?"
+        self.updatemessage('Promote Queen?',color,color)
+        self.state = "Promote Queen?"
         return True
         
     def promoteprawn(self, color, piece):
@@ -207,7 +207,7 @@ class BlindChessRoot(BoxLayout):
             return
         if self.whosemove == color:
             if 'Promote' in self.state: # need to execute the pawn promotion.
-                piece = self.state[11]
+                piece = self.state[8]
                 if piece == 'K': piece = 'N'  # Knight not Night
                 self.promoteprawn(self.whosemove,piece)
                 return    
@@ -243,14 +243,14 @@ class BlindChessRoot(BoxLayout):
         if self.whosemove == color:            
             if 'Promote' in self.state: # rejected the pawn promotion piece
                      # need to cycle to the next one
-                if self.state == 'Promote to Queen?':
-                    message = 'Promote to Knight?'
-                elif self.state == 'Promote to Knight?':
-                    message = 'Promote to Rook?'
-                elif self.state == 'Promote to Rook?':
-                    message = 'Promote to Bishop?' 
-                elif self.state == 'Promote to Bishop?':
-                    message = 'Promote to Queen?'   
+                if self.state == 'Promote Queen?':
+                    message = 'Promote Knight?'
+                elif self.state == 'Promote Knight?':
+                    message = 'Promote Rook?'
+                elif self.state == 'Promote Rook?':
+                    message = 'Promote Bishop?' 
+                elif self.state == 'Promote Bishop?':
+                    message = 'Promote Queen?'   
                 self.updatemessage(message,color,color)
                 self.state = message
                 return    
