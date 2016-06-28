@@ -116,10 +116,9 @@ class ChessEngine(object):
         # if players piece not selected return False
         colorpiece = self.board[sourcey][sourcex]
         if colorpiece[0] != color:
-            print 'wrong color'
             return False
         # if destination not in possible destinations return False
-        if not self.checkifmoveispossibledest(sourcex, sourcey, destx, desty, self.board):
+        if not self.checkifmoveispossibledest(sourcex, sourcey, destx, desty, self.board, True):
             return False
         return not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,self.board)
         
@@ -137,7 +136,6 @@ class ChessEngine(object):
     def checkifincheck(self, color, board):
         # find the king
         kingx,kingy = self.findoneoftwopieces(color+'K', color+'k',board)
-        #print 'DAGWOOD checkifincheck2'
         for y in range(0,8):
             #print 'DAGWOOD3 ',y
             for x in range(0,8):
@@ -145,7 +143,7 @@ class ChessEngine(object):
                 # see if opponent piece can move to king
                 piecetocheck = board[y][x]
                 if piecetocheck[0] != '0' and piecetocheck[0] != color:
-                    if self.checkifmoveispossibledest(x,y,kingx,kingy,board):
+                    if self.checkifmoveispossibledest(x,y,kingx,kingy,board,False):
                         return True
         return False    
         
@@ -177,6 +175,18 @@ class ChessEngine(object):
         if piece[1] == 'p': piece = piece[0]+'P'
         board[desty][destx] = piece
         board[sourcey][sourcex] = '00'
+        # handle castle.  We moved the king.  Need to move the rook.
+        if abs(sourcex - destx) == 2 and piece[1] == 'K':
+            if sourcex < destx:
+                rookpiece = board[sourcey][7]
+                rookpiece = rookpiece[0]+'R'
+                board[sourcey][5] = rookpiece
+                board[sourcey][7] = '00'
+            else:
+                rookpiece = board[sourcey][0]
+                rookpiece = rookpiece[0]+'R'
+                board[sourcey][3] = rookpiece
+                board[sourcey][0] = '00'
 
 
     def wouldmoveexposecheck(self,sourcex,sourcey,destx,desty,board):
@@ -187,8 +197,46 @@ class ChessEngine(object):
         self.updateboardinplace(sourcex,sourcey,destx,desty,newboard)
         return self.checkifincheck(color, newboard)
 
-    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board):
+    def checkifcastleislegal(self, sourcex, sourcey, destx, desty, board):
+        kingpiece = board[sourcey][sourcex]
+        if kingpiece[1] != 'k': return False  # king has moved
+        if destx < sourcex:
+            if sourcex - destx != 2: return False
+            rookx = 0
+            rookpiece = board[sourcey][rookx]
+            if rookpiece[1] != 'r': return False # rook has moved
+            for x in range(1,4):
+                colorpiece = board[sourcey][x]
+                if colorpiece[1] != '0': return False  # square between king and rook occupied
+            # check if in check at any intermediate positions
+            for x in range(0,4):  # check if king would cross through check
+                newboard = deepcopy(board) 
+                newboard[sourcey][x] = kingpiece
+                newboard[sourcey][sourcex] = '00'
+                if self.checkifincheck(kingpiece[0],newboard): return False
+        else:
+            if destx - sourcex != 2: return False
+            rookx = 7
+            rookpiece = board[sourcey][rookx]
+            if rookpiece[1] != 'r': return False # rook has moved
+            for x in range(5,7):
+                colorpiece = board[sourcey][x]
+                if colorpiece[1] != '0': return False  # square between king and rook occupied
+            # check if in check at any intermediate positions
+            for x in range(5,8):  # check if king would cross through check
+                newboard = deepcopy(board) 
+                newboard[sourcey][x] = kingpiece
+                newboard[sourcey][sourcex] = '00'
+                if self.checkifincheck(kingpiece[0],newboard): return False
+        return True
+
+    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board, castleallowed):
         # get the piece and color
+        # castleallowed is a boolean.  
+        # If False, then castle will not be checked.
+        # If True, castle will be checked
+        # Use this when calling to see if a piece is checking the king,
+        # since a castle is never a checking move.
         colorpiece = board[sourcey][sourcex]
         piececolor = colorpiece[0]
         piecetype  = colorpiece[1]
@@ -261,10 +309,11 @@ class ChessEngine(object):
                     checkcolorpiece = board[checky][checkx]
                     if checkcolorpiece[0] != piececolor:
                         return True
-                                
-            # Need extra processing if move is king.
-            # Need to check if this is a castle
-            # ADD HERE                    
+                        
+            if colorpiece[1] == 'k':        # Need to check if this is a castle
+               if abs(sourcex - destx) == 2 and castleallowed:
+                   return self.checkifcastleislegal(sourcex, sourcey, destx, desty, board)
+                   
         return False
                          
 if __name__ == '__main__':
@@ -272,7 +321,7 @@ if __name__ == '__main__':
     cb = ChessEngine()  
     cb.printboard()
     pdb.set_trace()
-    print cb.checkifmoveispossibledest(6,0,7,2,cb.board)
+    print cb.checkifmoveispossibledest(6,0,7,2,cb.board,True)
     print cb.checkifincheck('B',cb.board)
     
     cb.printboard()

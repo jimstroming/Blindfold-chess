@@ -121,7 +121,6 @@ class BlindChessRoot(BoxLayout):
         return True
         
     def promoteprawn(self, color, piece):
-        print "DAGWOOD20"
         self.chessengine.promotepawn(color,piece,self.promotex,self.promotey)
         self.movestring += piece 
         oppcolor = 'B'
@@ -172,6 +171,7 @@ class BlindChessRoot(BoxLayout):
         
 
     def movebuttonpress(self, color):
+        print "DAGWOOD11 - movebuttonpress"
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -193,7 +193,6 @@ class BlindChessRoot(BoxLayout):
                                     self.destx, self.desty) # get the move notation
                     self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
                                     self.destx, self.desty)
-                    print "DAGWOOD11"
                     if not self.checkforpawnpromotion(self.whosemove):
                         self.updatebothmessages(self.movestring,self.whosemove)
                         if self.whosemove == 'B': # switch the players turn
