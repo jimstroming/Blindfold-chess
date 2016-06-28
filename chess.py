@@ -45,6 +45,9 @@ class ChessEngine(object):
                          }
         self.pawntopromote = [] # x,y location of the pawn that needs
                                 # to be promoted 
+        self.blackenpassantx = -1  # column where a black pawn can be capture via en passant
+        self.whiteenpassantx = -1  # column where a white pawn can be capture via en passant 
+                        
 
     def printboard(self):
         for x in range(0,8):
@@ -123,7 +126,17 @@ class ChessEngine(object):
         return not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,self.board)
         
     def makevalidmove(self,sourcex, sourcey, destx, desty):
-        self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)    
+        colorpiece = self.board[sourcey][sourcex]
+        self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)  
+        # set the en passant flag if necessary and clear the other 
+        if colorpiece[0] == 'B': 
+            self.whiteenpassantx = -1 # clear the other en passant flag
+            if colorpiece[1] == 'p' and sourcey == 6 and desty == 4:
+                self.blackenpassantx = sourcex
+        else: 
+            self.blackenpassantx = -1
+            if colorpiece[1] == 'p' and sourcey == 1 and desty == 3:
+                self.whiteenpassantx = sourcex
         
     def findoneoftwopieces(self, piece1, piece2, board):
         for y in range(0,8):
@@ -187,7 +200,14 @@ class ChessEngine(object):
                 rookpiece = rookpiece[0]+'R'
                 board[sourcey][3] = rookpiece
                 board[sourcey][0] = '00'
-
+        # handle enpassant.
+        if piece[0] == 'W':
+            if desty == 5 and destx == self.blackenpassantx:
+                board[4][self.blackenpassantx] = '00'       
+      
+        else:
+            if desty == 2 and destx == self.whiteenpassantx:
+                board[3][self.whiteenpassantx] = '00' 
 
     def wouldmoveexposecheck(self,sourcex,sourcey,destx,desty,board):
         
@@ -230,13 +250,13 @@ class ChessEngine(object):
                 if self.checkifincheck(kingpiece[0],newboard): return False
         return True
 
-    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board, castleallowed):
+    def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board, notcheckchecking):
         # get the piece and color
-        # castleallowed is a boolean.  
-        # If False, then castle will not be checked.
-        # If True, castle will be checked
+        # notcheckchecking is a boolean.  
+        # If False, then castle and en passant will not be checked.
+        # If True, castle and en passant will be checked
         # Use this when calling to see if a piece is checking the king,
-        # since a castle is never a checking move.
+        # since a castle or en passant is never a checking move.
         colorpiece = board[sourcey][sourcex]
         piececolor = colorpiece[0]
         piecetype  = colorpiece[1]
@@ -252,9 +272,16 @@ class ChessEngine(object):
                         # this is a capture rule
                         checkcolorpiece = board[desty][destx]
                         if checkcolorpiece[0] != piececolor and checkcolorpiece[0] != '0':
-                            return True    # this has to be a capture, for now
-                                           # I will later have to add the en passant
-                                           # code into this case. 
+                            return True    # regular capture
+                        print "DAGWOOD40 - check for enpassant"
+                        if colorpiece[0] == 'W': # check for en passant
+                            if desty == 5 and destx == self.blackenpassantx:
+                                print "DAGWOOD42a - detected enpassant"
+                                return True
+                        else:
+                            if desty == 2 and destx == self.whiteenpassantx:
+                                print "DAGWOOD42b - detected enpassant"
+                                return True
                     else: # check if moving 1 or 2
                         if abs(moverule[1]) == 2:
                            # 2 move initial case.
@@ -311,7 +338,7 @@ class ChessEngine(object):
                         return True
                         
             if colorpiece[1] == 'k':        # Need to check if this is a castle
-               if abs(sourcex - destx) == 2 and castleallowed:
+               if abs(sourcex - destx) == 2 and notcheckchecking:
                    return self.checkifcastleislegal(sourcex, sourcey, destx, desty, board)
                    
         return False
