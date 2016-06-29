@@ -52,16 +52,15 @@ class BlindChessRoot(BoxLayout):
                 else:
                     self.ids[buttonid].text = ''
                     
-    def setallfontsred(self):
-        brightred = (1,0,0,1)
-        self.ids['clockW'].color = brightred
-        self.ids['clockB'].color = brightred
-        self.ids['mistakecountW'].color = brightred                
-        self.ids['mistakecountB'].color = brightred                
-        self.ids['moveW'].color = brightred
-        self.ids['moveB'].color = brightred
-        self.ids['cancelW'].color = brightred
-        self.ids['cancelB'].color = brightred
+    def setallfontsonecolor(self, color):
+        self.ids['clockW'].color = color
+        self.ids['clockB'].color = color
+        self.ids['mistakecountW'].color = color                
+        self.ids['mistakecountB'].color = color                
+        self.ids['moveW'].color = color
+        self.ids['moveB'].color = color
+        self.ids['cancelW'].color = color
+        self.ids['cancelB'].color = color
         
     def restoreallfonts(self):
         almostblack = (0.2,0.2,0.2,1)
@@ -192,12 +191,11 @@ class BlindChessRoot(BoxLayout):
     
 
     def buttonpress(self, x, y):
-        self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
             return 
-            
+        self.cancelcount = 0            
         if self.state == "looking for source":
             buttonid = "but"+str(x)+str(y)     
             self.sourcex = x
@@ -229,11 +227,11 @@ class BlindChessRoot(BoxLayout):
 
     def movebuttonpress(self, color):
         print "DAGWOOD11 - movebuttonpress"
-        self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
             return
+        self.cancelcount = 0            
         if self.whosemove == color:
             if 'Promote' in self.state: # need to execute the pawn promotion.
                 piece = self.state[8]
@@ -259,21 +257,23 @@ class BlindChessRoot(BoxLayout):
                             self.whosemove = 'B'
                         self.setwidgetbackgroundcolors()
                         self.resetaftermove()
+                        if self.chessengine.checkifincheck(self.whosemove,self.chessengine.board):
+                            self.setallfontsonecolor((0,0,1,1)) # turn the fonts blue if in check
                 else:
                     self.increasemistakecount(self.whosemove)
                     self.resetaftermove()
-                    self.setallfontsred()
+                    self.setallfontsonecolor((1,0,0,1)) # turn the fonts red
                 return
                 
     def cancelbuttonpress(self, color):
-        self.cancelcount += 1
-        if self.cancelcount == 3:
-            self.blind = 1-self.blind
-            self.cancelcount = 0
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
             return
+        self.cancelcount += 1
+        if self.cancelcount == 3:
+            self.blind = 1-self.blind
+            self.cancelcount = 0            
         if self.whosemove == color:            
             if 'Promote' in self.state: # rejected the pawn promotion piece
                      # need to cycle to the next one
