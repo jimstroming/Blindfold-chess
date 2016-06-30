@@ -7,7 +7,6 @@ from chess import ChessEngine
 class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
-        print "DAGWOOD BOOT"
         self.createchessengine()
         self.purewhite   = ( 1,   1,  1, 1)
         self.brightwhite = (0.9,0.9,0.9, 1)
@@ -31,7 +30,6 @@ class BlindChessRoot(BoxLayout):
         self.ids['messageW'].font_size = '30dp'
         self.ids['messageB'].font_size = '30dp'
         self.cancelcount = 0 # pressing cancel 3 times in a row toggles self.blind
-        print "DAGWOOD50"
         Clock.schedule_interval(self.updateclocks, 1)
          
     def createchessengine(self):
@@ -226,7 +224,6 @@ class BlindChessRoot(BoxLayout):
         
 
     def movebuttonpress(self, color):
-        print "DAGWOOD11 - movebuttonpress"
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()

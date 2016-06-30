@@ -150,9 +150,7 @@ class ChessEngine(object):
         # find the king
         kingx,kingy = self.findoneoftwopieces(color+'K', color+'k',board)
         for y in range(0,8):
-            #print 'DAGWOOD3 ',y
             for x in range(0,8):
-                #print 'DAGWOOD4 ',x
                 # see if opponent piece can move to king
                 piecetocheck = board[y][x]
                 if piecetocheck[0] != '0' and piecetocheck[0] != color:
@@ -266,21 +264,17 @@ class ChessEngine(object):
             for moverule in potentialmoves:
                 checkx = sourcex
                 checky = sourcey
-                print moverule
                 if checkx+moverule[0] == destx and checky+moverule[1] == desty:
                     if abs(moverule[0]) == 1:
                         # this is a capture rule
                         checkcolorpiece = board[desty][destx]
                         if checkcolorpiece[0] != piececolor and checkcolorpiece[0] != '0':
                             return True    # regular capture
-                        print "DAGWOOD40 - check for enpassant"
                         if colorpiece[0] == 'W': # check for en passant
                             if desty == 5 and destx == self.blackenpassantx:
-                                print "DAGWOOD42a - detected enpassant"
                                 return True
                         else:
                             if desty == 2 and destx == self.whiteenpassantx:
-                                print "DAGWOOD42b - detected enpassant"
                                 return True
                     else: # check if moving 1 or 2
                         if abs(moverule[1]) == 2:
@@ -295,22 +289,18 @@ class ChessEngine(object):
     
         # not a pawn
         for moverule in potentialmoves:
-            #print "DAGWOODMANB3 moverule: ", moverule
             checkx = sourcex
             checky = sourcey
-            print moverule
             if abs(moverule[0]) == 7 or abs(moverule[1]) == 7:
                 # process the range move
                 # scale if down by 7
                 scaledmoverule = [0,0]
                 scaledmoverule[0] = moverule[0]/7
                 scaledmoverule[1] = moverule[1]/7
-                print moverule
                 checkend = False
                 while (not checkend):
                     checkx += scaledmoverule[0]
                     checky += scaledmoverule[1]
-                    print checkx, checky
                     if checkx < 0 or checkx > 7:
                         checkend = True
                     elif checky < 0 or checky > 7:
@@ -344,7 +334,6 @@ class ChessEngine(object):
         return False
                          
 if __name__ == '__main__':
-    print "hello"
     cb = ChessEngine()  
     cb.printboard()
     pdb.set_trace()
