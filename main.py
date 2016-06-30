@@ -7,6 +7,7 @@ from chess import ChessEngine
 class BlindChessRoot(BoxLayout):
     
     def initialsetup(self):  # called at the beginning of the game
+        """ initialize the game state.  Called on the first button press."""
         self.createchessengine()
         self.purewhite   = ( 1,   1,  1, 1)
         self.brightwhite = (0.9,0.9,0.9, 1)
@@ -33,9 +34,11 @@ class BlindChessRoot(BoxLayout):
         Clock.schedule_interval(self.updateclocks, 1)
          
     def createchessengine(self):
+        """ Creates the chess engine.  Maintains the game state and enforces move rules."""
         self.chessengine = ChessEngine() 
         
-    def updateboardui(self): # update the board to match the engine
+    def updateboardui(self): 
+        """ Update the display to match the engine."""
         for x in range(0,8):
             for y in range(0,8):
                 stringid = "but"+str(x)+str(y)
@@ -51,6 +54,7 @@ class BlindChessRoot(BoxLayout):
                     self.ids[buttonid].text = ''
                     
     def setallfontsonecolor(self, color):
+        """ Sets the button and counts to a color to alert the player something has happened."""
         self.ids['clockW'].color = color
         self.ids['clockB'].color = color
         self.ids['mistakecountW'].color = color                
@@ -61,6 +65,7 @@ class BlindChessRoot(BoxLayout):
         self.ids['cancelB'].color = color
         
     def restoreallfonts(self):
+        """ Restores the button and counts to their original color."""
         almostblack = (0.2,0.2,0.2,1)
         almostwhite = (0.8,0.8,0.8,1)
         self.ids['clockW'].color = almostwhite
@@ -74,12 +79,14 @@ class BlindChessRoot(BoxLayout):
         
                    
     def getboardcolor(self,x,y):
+        """ Returns the background color of a board square."""
         if (y%2 == 0 and x%2 == 0) or (y%2 == 1 and x%2 == 1):
             return self.darkgray
         else:
             return self.lightgray  
             
     def updateclocks(self,dt):
+        """ Adds one second to the active board clock."""
         if self.whosemove == 'W':
             timestring = self.ids['clockW'].text
         else:
@@ -102,6 +109,7 @@ class BlindChessRoot(BoxLayout):
             self.ids['clockB'].text = timestring            
             
     def setwidgetbackgroundcolors(self):
+        """ Sets the background color of the move and cancel buttons."""
         if self.whosemove == 'W': 
             blackcolor = self.darkgray
             whitecolor = self.brightwhite
@@ -114,10 +122,12 @@ class BlindChessRoot(BoxLayout):
         self.ids["cancelW"].background_color = whitecolor
         
     def resetsquarebackground(self,x,y):
+        """ Resets a board square back to its original color."""
         buttonid = buttonid = "but"+str(x)+str(y)
         self.ids[buttonid].background_color = self.getboardcolor(x,y)
         
     def increasemistakecount(self,color):
+        """ Increment the mistake count of the active player."""
         # read the mistake count and convert to a number
         labelid = "mistakecount"+color 
         mistakecount = int(self.ids[labelid].text) 
@@ -125,6 +135,7 @@ class BlindChessRoot(BoxLayout):
         self.ids[labelid].text = str(mistakecount) # convert to a string and update
         
     def updatebothmessages(self, message, colortodraw):
+        """" Update the on screen message to both players."""
         colorvalue = self.purewhite
         if colortodraw == 'B' : colorvalue = self.pureblack
         self.ids['messageW'].text = message
@@ -133,6 +144,7 @@ class BlindChessRoot(BoxLayout):
         self.ids['messageB'].color = colorvalue
         
     def updatemessage(self,message,colortoupdate,colortodraw):
+        """ Update the on screen message of one of the players."""
         labelid = "message"+colortoupdate 
         self.ids[labelid].text = message
         if colortodraw == 'W':
@@ -141,6 +153,7 @@ class BlindChessRoot(BoxLayout):
             self.ids[labelid].color = self.pureblack
     
     def resetaftermove(self):
+        """ Reset the board after a move."""
         # reset both the cursors ui
         if self.sourcex != -1:
             self.resetsquarebackground(self.sourcex,self.sourcey)
@@ -159,6 +172,7 @@ class BlindChessRoot(BoxLayout):
         self.state = "looking for source"
         
     def checkforpawnpromotion(self, color):
+        """ Check if a pawn needs to be promoted and prompt the user if they want a queen."""
         # check if we need to do pawn promotion
         # we will start with Queen
         # The order we will present the promotion options is
@@ -174,6 +188,7 @@ class BlindChessRoot(BoxLayout):
         return True
         
     def promoteprawn(self, color, piece):
+        """ Promote a pawn to the selected piece."""
         self.chessengine.promotepawn(color,piece,self.promotex,self.promotey)
         self.movestring += piece 
         oppcolor = 'B'
@@ -189,6 +204,7 @@ class BlindChessRoot(BoxLayout):
     
 
     def buttonpress(self, x, y):
+        """ Process a button press on the game board.  Each board square is a button."""
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -224,6 +240,7 @@ class BlindChessRoot(BoxLayout):
         
 
     def movebuttonpress(self, color):
+        """ Process a press on the move button."""
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -263,6 +280,7 @@ class BlindChessRoot(BoxLayout):
                 return
                 
     def cancelbuttonpress(self, color):
+        """ Process a press on the cancel button."""
         message = self.ids["messageB"].text
         if message == 'Press a Button to Start':
             self.initialsetup()
@@ -289,6 +307,7 @@ class BlindChessRoot(BoxLayout):
 
 
 class BlindChessApp(App):
+    """ The kivy game app."""
     pass
 
 
