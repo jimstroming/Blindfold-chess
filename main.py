@@ -22,6 +22,7 @@ class BlindChessRoot(BoxLayout):
         self.sourcey = -1 
         self.destx = -1
         self.desty = -1     
+        self.resetbothmistakecounts()
         self.updateboardui()
         for x in range(0,8):
             for y in range(0,8):
@@ -132,6 +133,12 @@ class BlindChessRoot(BoxLayout):
         """ Resets a board square back to its original color."""
         buttonid = buttonid = "but"+str(x)+str(y)
         self.ids[buttonid].background_color = self.getboardcolor(x,y)
+        
+    def resetbothmistakecounts(self):    
+        labelidblack = "mistakecountB"
+        labelidwhite = "mistakecountW"
+        self.ids[labelidblack].text = str(0)
+        self.ids[labelidwhite].text = str(0)
         
     def increasemistakecount(self,color):
         """ Increment the mistake count of the active player."""
