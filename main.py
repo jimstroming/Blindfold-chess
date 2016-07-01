@@ -17,14 +17,17 @@ class BlindChessRoot(BoxLayout):
         self.pureblack   = ( 0,   0,  0, 1)
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
-        self.blind = 1    # 1 means blind.  0 means show the pieces       
-        self.updateboardui()
-        self.whosemove = 'W' # white moves first
-        self.setwidgetbackgroundcolors()
+        self.blind = 1    # 1 means blind.  0 means show the pieces  
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
         self.destx = -1
-        self.desty = -1
+        self.desty = -1     
+        self.updateboardui()
+        for x in range(0,8):
+            for y in range(0,8):
+               self.resetsquarebackground(x,y)
+        self.whosemove = 'W' # white moves first
+        self.setwidgetbackgroundcolors()
         self.state = "looking for source"
         self.ids['clockW'].text = "10:00"
         self.ids['clockB'].text = "10:00"
