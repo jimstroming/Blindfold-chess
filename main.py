@@ -31,6 +31,10 @@ class BlindChessRoot(BoxLayout):
         self.ids['messageW'].font_size = '30dp'
         self.ids['messageB'].font_size = '30dp'
         self.cancelcount = 0 # pressing cancel 3 times in a row toggles self.blind
+        self.resetcount  = 0 # pressing any board square 5 times in a row
+                             # resets the game
+        self.resetx = 0
+        self.resety = 0
         Clock.schedule_interval(self.updateclocks, 1)
          
     def createchessengine(self):
@@ -209,7 +213,21 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press a Button to Start':
             self.initialsetup()
             return 
-        self.cancelcount = 0            
+        self.cancelcount = 0
+        if self.resetcount == 0:  # pressing the same square five times in a row
+            self.resetcount = 1   # resets the game
+            self.resetx = x
+            self.resety = y
+        elif self.resetx == x and self.resety == y:
+            self.resetcount += 1
+        else:
+            self.resetcount = 0
+     
+        if self.resetcount == 5:
+            del self.chessengine
+            self.initialsetup()   
+            return
+     
         if self.state == "looking for source":
             buttonid = "but"+str(x)+str(y)     
             self.sourcex = x
@@ -236,8 +254,7 @@ class BlindChessRoot(BoxLayout):
                 self.ids[buttonid].background_color = self.purewhite
             else:
                 self.ids[buttonid].background_color = self.pureblack
-            return
-        
+            return     
 
     def movebuttonpress(self, color):
         """ Process a press on the move button."""
@@ -245,7 +262,8 @@ class BlindChessRoot(BoxLayout):
         if message == 'Press a Button to Start':
             self.initialsetup()
             return
-        self.cancelcount = 0            
+        self.cancelcount = 0    
+        self.resetcount = 0        
         if self.whosemove == color:
             if 'Promote' in self.state: # need to execute the pawn promotion.
                 piece = self.state[8]
@@ -286,6 +304,7 @@ class BlindChessRoot(BoxLayout):
             self.initialsetup()
             return
         self.cancelcount += 1
+        self.resetcount = 0
         if self.cancelcount == 3:
             self.blind = 1-self.blind
             self.cancelcount = 0            
