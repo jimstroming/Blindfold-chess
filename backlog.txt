@@ -1,5 +1,0 @@
-Flash the display when a mistake is made.
-Right now you don't notice you made a mistake.
-
-Add something like, hit cancel 3 times in a 
-row to peek at the display.
