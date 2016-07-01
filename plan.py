@@ -69,6 +69,52 @@ Make the move{
         if moved 2 castle    
     
 }
-   
+  
 
+------------------------------------------------
+
+Let's make a simple one player mode, for practice.
+The computer player will have perfect vision.  It will remember where every piece is
+and will not play blind.
+
+But it will not be very strategic.  It will only look N moves ahead,
+analyzing what the best outcome is at the end of those N moves,
+and choose the best option.
+While as a regular chess opponent, this would be very bad,
+as a blind chess opponent, it should be passable.
+
+It will use the values
+pawn   = 1
+knight = 3
+bishop = 3
+rook   = 5
+queen  = 9 
+king   = 1000
+
+----------
+
+I think what we need at the heart is a recursive routine
+
+findbestscore(board, whoseturninthegame, whosemoveintheanalysis, level)
+    # whose turninthegame is who will move when the chosen turn is returned
+    if level == 0:
+        return calculatescoreandmove(whoteturninthegame, board)
+    else:
+        bestmove = []
+        bestscore = None
+        newmoveintheanalysis = opposite(whosemoveintheanalysis)
+        for moves in possiblemoves:
+            if movelegal(): newboard = move(board)
+            score, move = findbestscore(newboard, whoseturninthegame, newmoveintheanalysis,level-1)
+            if bestscore == score:
+                bestturn.append(move)
+            elif whoseturninthegame == whosemoveintheanalysis:
+                if bestscore == None or score > bestscore:
+                    bestmove = [move]
+                    bestscore = score
+            else:
+                if bestscore == None or score < bestscore:
+                    bestmove = [move]
+                    bestscore = score
+        return bestscore, bestmove  
 """
