@@ -249,12 +249,13 @@ class ChessEngine(object):
         return True
 
     def checkifmoveispossibledest(self, sourcex, sourcey, destx, desty, board, notcheckchecking):
-        # get the piece and color
-        # notcheckchecking is a boolean.  
-        # If False, then castle and en passant will not be checked.
-        # If True, castle and en passant will be checked
-        # Use this when calling to see if a piece is checking the king,
-        # since a castle or en passant is never a checking move.
+        """ Return if a move is legal.
+        notcheckchecking is a boolean.
+        If False, then castle and en passant will not be checked.
+        If True, castle and en passant will be checked.
+        Use this when calling to see if a piece is checking the king,
+        since a castle or en passant is never a checking move.
+        """
         colorpiece = board[sourcey][sourcex]
         piececolor = colorpiece[0]
         piecetype  = colorpiece[1]
