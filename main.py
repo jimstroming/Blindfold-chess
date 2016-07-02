@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
 from kivy.clock import Clock
+import time
 from chess import ChessEngine
 
 class BlindChessRoot(BoxLayout):
@@ -17,7 +18,8 @@ class BlindChessRoot(BoxLayout):
         self.pureblack   = ( 0,   0,  0, 1)
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
-        self.blind = 1    # 1 means blind.  0 means show the pieces  
+        self.setcancelandmovebuttons('cancel','move')
+        self.blind = 0    # 1 means blind.  0 means show the pieces  
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
         self.destx = -1
@@ -29,7 +31,6 @@ class BlindChessRoot(BoxLayout):
                self.resetsquarebackground(x,y)
         self.whosemove = 'W' # white moves first
         self.setwidgetbackgroundcolors()
-        self.state = "looking for source"
         self.ids['clockW'].text = "10:00"
         self.ids['clockB'].text = "10:00"
         self.ids['messageW'].font_size = '30dp'
@@ -40,6 +41,11 @@ class BlindChessRoot(BoxLayout):
         self.resetx = 0
         self.resety = 0
         Clock.schedule_interval(self.updateclocks, 1)
+        if self.whiteplayer == 'human':
+            self.state = "looking for source"        
+        else:
+            self.state = "cpu turn to move"
+            self.cpumove(0)
          
     def createchessengine(self):
         """ Creates the chess engine.  Maintains the game state and enforces move rules."""
@@ -131,8 +137,15 @@ class BlindChessRoot(BoxLayout):
         
     def resetsquarebackground(self,x,y):
         """ Resets a board square back to its original color."""
-        buttonid = buttonid = "but"+str(x)+str(y)
+        buttonid = "but"+str(x)+str(y)
         self.ids[buttonid].background_color = self.getboardcolor(x,y)
+        
+    def setcancelandmovebuttons(self,canceltext,movetext):
+        self.ids["moveB"].text = movetext
+        self.ids["cancelB"].text = canceltext
+        self.ids["moveW"].text = movetext
+        self.ids["cancelW"].text = canceltext
+         
         
     def resetbothmistakecounts(self):    
         labelidblack = "mistakecountB"
@@ -184,6 +197,11 @@ class BlindChessRoot(BoxLayout):
         self.restoreallfonts()
         # set the state
         self.state = "looking for source"
+        if ((self.whiteplayer == 'cpu' and self.whosemove == 'W') or 
+                (self.blackplayer == 'cpu' and self.whosemove == 'B')):
+            self.state = "cpu turn to move"
+            self.cpumove(0)
+
         
     def checkforpawnpromotion(self, color):
         """ Check if a pawn needs to be promoted and prompt the user if they want a queen."""
@@ -216,12 +234,84 @@ class BlindChessRoot(BoxLayout):
         self.setwidgetbackgroundcolors()
         self.resetaftermove()
     
+    def cpumove(self,dt):
+        whosemove = self.whosemove
+        print "DAGWOOD59"
+        move = self.chessengine.getcomputermoveincremental(whosemove)
+        print "DAGWOOD60 move = ", move
+        if move == 'resign':
+            pass   # NEED TO ADD RESIGNATION CODE
+        if move == False:
+            Clock.schedule_once(self.cpumove,0.1)
+            return
+        
+        self.sourcex = move[0]
+        self.sourcey = move[1]
+        self.destx = move[2]
+        self.desty = move[3]
+        # select the source
+        
+        buttonid = "but"+str(self.sourcex)+str(self.sourcey)     
+        if whosemove == 'W':
+            self.ids[buttonid].background_color = self.brightwhite
+        else:
+            self.ids[buttonid].background_color = self.darkblack
+          
+        Clock.schedule_once(self.cpu_select_dest, 1)  
+            
+       
+
+    def cpu_select_dest(self,dt):
+        print "DAGWOOD70"
+        buttonid = "but"+str(self.destx)+str(self.desty)     
+        if self.whosemove == 'W':
+            self.ids[buttonid].background_color = self.purewhite
+        else:
+            self.ids[buttonid].background_color = self.pureblack
+        # schedule next part after a second 
+        Clock.schedule_once(self.cpu_makethemove, 1)  
+        
+    def cpu_makethemove(self,dt):
+        print "DAGWOOD80"
+        # check if the move is legal
+        validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
+                                    self.sourcey, self.destx, self.desty)
+        print "DAGWOOD81"
+        if validmove:  
+            print "DAGWOOD82"
+            self.movestring = self.chessengine.getmovenotation(self.sourcex, self.sourcey, 
+                            self.destx, self.desty) # get the move notation
+            self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
+                            self.destx, self.desty)
+                            
+            # check for pawn promotion
+            x,y = self.chessengine.checkforpawnpromotion(self.whosemove)
+            if x != -1:
+                promoteprawn(self, self.whosemove, 'Q')
+            else:
+                print "DAGWOD85"
+                self.updatebothmessages(self.movestring,self.whosemove)
+                if self.whosemove == 'B': # switch the players turn
+                    self.whosemove = 'W'
+                else:
+                    self.whosemove = 'B'
+                self.setwidgetbackgroundcolors()
+                self.resetaftermove()
+                if self.chessengine.checkifincheck(self.whosemove,self.chessengine.board):
+                    self.setallfontsonecolor((0,0,1,1)) # turn the fonts blue if in check        
+        else:
+            pass # go to resign state (NEED TO ADD)
+        
+
+       
+        
+
+
 
     def buttonpress(self, x, y):
         """ Process a button press on the game board.  Each board square is a button."""
         message = self.ids["messageB"].text
-        if message == 'Press a Button to Start':
-            self.initialsetup()
+        if message == 'Select Number of Players':
             return 
         self.cancelcount = 0
         if self.resetcount == 0:  # pressing the same square five times in a row
@@ -236,6 +326,9 @@ class BlindChessRoot(BoxLayout):
         if self.resetcount == 5:
             del self.chessengine
             self.initialsetup()   
+            return
+     
+        if self.state == 'cpu turn to move':  # cpu is still thinking.  
             return
      
         if self.state == "looking for source":
@@ -269,7 +362,10 @@ class BlindChessRoot(BoxLayout):
     def movebuttonpress(self, color):
         """ Process a press on the move button."""
         message = self.ids["messageB"].text
-        if message == 'Press a Button to Start':
+        if message == 'Select Number of Players':
+            self.numberplayers = 2
+            self.blackplayer = 'human'
+            self.whiteplayer = 'human'    
             self.initialsetup()
             return
         self.cancelcount = 0    
@@ -310,7 +406,14 @@ class BlindChessRoot(BoxLayout):
     def cancelbuttonpress(self, color):
         """ Process a press on the cancel button."""
         message = self.ids["messageB"].text
-        if message == 'Press a Button to Start':
+        if message == 'Select Number of Players':
+            self.numberplayers = 1
+            if color == 'B': 
+                self.whiteplayer = 'cpu'
+                self.blackplayer = 'human'
+            else:
+                self.whiteplayer = 'human'
+                self.blackplayer = 'cpu'                 
             self.initialsetup()
             return
         self.cancelcount += 1

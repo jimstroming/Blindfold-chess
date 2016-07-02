@@ -98,23 +98,26 @@ I think what we need at the heart is a recursive routine
 findbestscore(board, whoseturninthegame, whosemoveintheanalysis, level)
     # whose turninthegame is who will move when the chosen turn is returned
     if level == 0:
-        return calculatescoreandmove(whoteturninthegame, board)
+        return calculatescore(whoseturninthegame, board)
     else:
         bestmove = []
         bestscore = None
         newmoveintheanalysis = opposite(whosemoveintheanalysis)
-        for moves in possiblemoves:
-            if movelegal(): newboard = move(board)
-            score, move = findbestscore(newboard, whoseturninthegame, newmoveintheanalysis,level-1)
-            if bestscore == score:
+        create the move list
+        for squares on board:
+           get piece color
+           if color is opposite:
+              if movelegal(): newboard = move(board)
+              score, move = findbestscore(newboard, whoseturninthegame, newmoveintheanalysis,level-1)
+              if bestscore == score:
                 bestturn.append(move)
-            elif whoseturninthegame == whosemoveintheanalysis:
-                if bestscore == None or score > bestscore:
+              elif whoseturninthegame == whosemoveintheanalysis:
+                  if bestscore == None or score > bestscore:
                     bestmove = [move]
                     bestscore = score
-            else:
-                if bestscore == None or score < bestscore:
-                    bestmove = [move]
-                    bestscore = score
+              else:
+                  if bestscore == None or score < bestscore:
+                      bestmove = [move]
+                      bestscore = score
         return bestscore, bestmove  
 """

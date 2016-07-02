@@ -1,5 +1,5 @@
 import pdb
-from copy import deepcopy
+import random
 
 class ChessEngine(object):
     # white on bottom, black on top
@@ -43,15 +43,62 @@ class ChessEngine(object):
                           'BP':[[0,-1],[-1,-1],[1,-1]],
                           'Bp':[[0,-1],[0,-2],[-1,-1],[1,-1]]
                          }
+
+        self.piecescore =  { '00': 0,
+                             'Wp': 1,
+                             'WP': 1,
+                             'WN': 3,
+                             'WB': 3,
+                             'WR': 5,
+                             'Wr': 5,
+                             'WQ': 9, 
+                             'Wk': 1000,
+                             'WK': 1000,
+                             'Bp': -1,
+                             'BP': -1,
+                             'BN': -3,
+                             'BB': -3,
+                             'BR': -5,
+                             'Br': -5,
+                             'BQ': -9, 
+                             'Bk': -1000,
+                             'BK': -1000,
+                             
+                            }  
+                            
+        self.whitepawnvaluebyrow = [1,1,1.1,1.2,1.6,2.3,2.5,9]
+        self.blackpawnvaluebyrow = [9,2.5,2.3,1.6,1.2,1.1,1,1]                              
+                         
         self.pawntopromote = [] # x,y location of the pawn that needs
                                 # to be promoted 
         self.blackenpassantx = -1  # column where a black pawn can be capture via en passant
         self.whiteenpassantx = -1  # column where a white pawn can be capture via en passant 
+                 
+        self.movecount = 0  # number of valid moves that have been made
+        self.currentopening = None
+                 
+        # the computer opens with a random opening if playing white
+        # and a random defense if playing black.
+        # Main purpose of the openings is to avoid a 4 move checkmate,
+        # since the computer is only looking 3 moves ahead.
+                 
+        self.openings = [[[4,1,4,3],[6,0,7,2]],   # 1. e4 2. Nf3      - Ruy Lopez
+                         [[4,1,4,3],[5,1,5,3]],   # 1. e4 2. f4       - King's Gambit
+                         [[3,1,3,3],[2,1,2,3]]]   # 1. d4 2. c4       - Queen's Gambit
+
+        self.defenses = [[[6,6,6,5]],             # 1. g6
+                         [[3,6,3,5]]]             # 1. d6
+
+        self.cpusourcex = 0    # the piece the cpu will search next
+        self.cpusourcey = 0
+        
+        self.bestmove  = []
+        self.bestscore = -30000
                         
 
-    def printboard(self):
+    def printboard(self,board):
         for x in range(0,8):
-            print self.board[7-x] 
+            print board[7-x] 
             
     def getpiece(self, x, y):
         return self.board[y][x]        
@@ -109,7 +156,7 @@ class ChessEngine(object):
                 notationstring += 'x'
             notationstring +=  files[destx]+ranks[desty]  
             # check if now in check
-            newboard = deepcopy(self.board)  
+            newboard = self.fastcopy(self.board)  
             self.updateboardinplace(sourcex, sourcey, destx, desty,newboard)
             if self.checkifincheck(oppcolor, newboard):
                 notationstring += '+'
@@ -126,6 +173,7 @@ class ChessEngine(object):
         return not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,self.board)
         
     def makevalidmove(self,sourcex, sourcey, destx, desty):
+        print "DAGWOOD"
         colorpiece = self.board[sourcey][sourcex]
         self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)  
         # set the en passant flag if necessary and clear the other 
@@ -137,6 +185,7 @@ class ChessEngine(object):
             self.blackenpassantx = -1
             if colorpiece[1] == 'p' and sourcey == 1 and desty == 3:
                 self.whiteenpassantx = sourcex
+        self.movecount += 1
         
     def findoneoftwopieces(self, piece1, piece2, board):
         for y in range(0,8):
@@ -206,12 +255,22 @@ class ChessEngine(object):
         else:
             if desty == 2 and destx == self.whiteenpassantx:
                 board[3][self.whiteenpassantx] = '00' 
+                
+    def fastcopy(self, b):
+        return     [[b[0][0],b[0][1],b[0][2],b[0][3],b[0][4],b[0][5],b[0][6],b[0][7]],
+                    [b[1][0],b[1][1],b[1][2],b[1][3],b[1][4],b[1][5],b[1][6],b[1][7]],
+                    [b[2][0],b[2][1],b[2][2],b[2][3],b[2][4],b[2][5],b[2][6],b[2][7]],
+                    [b[3][0],b[3][1],b[3][2],b[3][3],b[3][4],b[3][5],b[3][6],b[3][7]],
+                    [b[4][0],b[4][1],b[4][2],b[4][3],b[4][4],b[4][5],b[4][6],b[4][7]],
+                    [b[5][0],b[5][1],b[5][2],b[5][3],b[5][4],b[5][5],b[5][6],b[5][7]],
+                    [b[6][0],b[6][1],b[6][2],b[6][3],b[6][4],b[6][5],b[6][6],b[6][7]],
+                    [b[7][0],b[7][1],b[7][2],b[7][3],b[7][4],b[7][5],b[7][6],b[7][7]]]
 
     def wouldmoveexposecheck(self,sourcex,sourcey,destx,desty,board):
         
         colorpiece = board[sourcey][sourcex]
         color = colorpiece[0]
-        newboard = deepcopy(board)
+        newboard = self.fastcopy(board)
         self.updateboardinplace(sourcex,sourcey,destx,desty,newboard)
         return self.checkifincheck(color, newboard)
 
@@ -228,7 +287,7 @@ class ChessEngine(object):
                 if colorpiece[1] != '0': return False  # square between king and rook occupied
             # check if in check at any intermediate positions
             for x in range(0,4):  # check if king would cross through check
-                newboard = deepcopy(board) 
+                newboard = self.fastcopy(board) 
                 newboard[sourcey][x] = kingpiece
                 newboard[sourcey][sourcex] = '00'
                 if self.checkifincheck(kingpiece[0],newboard): return False
@@ -242,7 +301,7 @@ class ChessEngine(object):
                 if colorpiece[1] != '0': return False  # square between king and rook occupied
             # check if in check at any intermediate positions
             for x in range(5,8):  # check if king would cross through check
-                newboard = deepcopy(board) 
+                newboard = self.fastcopy(board) 
                 newboard[sourcey][x] = kingpiece
                 newboard[sourcey][sourcex] = '00'
                 if self.checkifincheck(kingpiece[0],newboard): return False
@@ -333,17 +392,246 @@ class ChessEngine(object):
                    return self.checkifcastleislegal(sourcex, sourcey, destx, desty, board)
                    
         return False
+        
+    
+    def getcomputermoveincremental(self,whoseturn):
+        print "DAGWOOD30"
+        scoredone = False
+        if self.movecount < 3:  # need to select a predefined opening
+            if self.movecount == 0: 
+                self.currentopening = random.choice(self.openings)
+                return self.currentopening[0]
+            if self.movecount == 2:
+                return self.currentopening[1]
+            else:
+                return random.choice(self.defenses)
+        else:
+           loopcontinue = True
+           while (loopcontinue == True):
+               print "DAGWOOD1"
+               sourcecolorpiece = self.board[self.cpusourcey][self.cpusourcex]
+               if sourcecolorpiece[0] == whoseturn:
+                   loopcontinue = False
+               elif self.cpusourcex == 7 and self.cpusourcey == 7:
+                   loopcontinue = False
+                   scoredone = True  # no more values.  We can return the score
+               else:
+                   self.cpusourcex += 1
+                   if self.cpusourcex == 8:
+                       self.cpusourcex = 0
+                       self.cpusourcey += 1
+           # we now have the piece we want to search, or are out of pieces.
+           if not scoredone:
+               level = 2
+               print "DAGWOOD2 level = ", level
+               score, move = self.findscoreforonepiece(self.board, self.cpusourcex, 
+                                     self.cpusourcey, whoseturn, whoseturn, level)
+               print "DAGWOOD3"
+               if self.bestscore < score:
+                   self.bestscore = score
+                   self.bestmove = move
+               elif self.bestscore == score:  # PBA bowling ladder randomization
+                   if random.choice([True,False]):
+                       self.bestscore = score
+                       self.bestmove = move
+               if self.cpusourcex == 7 and self.cpusourcey == 7:
+                   scoredone = True
+               else:
+                   self.cpusourcex += 1
+                   if self.cpusourcex == 8:
+                       self.cpusourcex = 0
+                       self.cpusourcey += 1
+           # continue here.  return either false or the score.        
+           if scoredone:
+               self.bestscore = -30000
+               move = self.bestmove
+               if move == []: return "RESIGN"
+               self.bestmove = []
+               self.cpusourcex = 0
+               self.cpusourcey = 0
+               return move
+           else:
+               return False   
+                    
+        
+    def calculatescore(self,board, whoseturninthegame):
+        totalscore = 0
+        for x in range(0,8):
+            for y in range(0,8):
+                colorpiece = board[y][x]
+                score = self.piecescore[colorpiece]
+                if score == 1:
+                    if colorpiece[0] == 'W': score = self.whitepawnvaluebyrow[y]
+                    else: score = self.blackpawnvaluebyrow[y]
+                totalscore += score
+                #print totalscore
+                #pdb.set_trace()
+        if whoseturninthegame == 'W':
+            return totalscore 
+        else:
+            return -totalscore 
+            
+    def getcomputermove(self, whoseturn):
+        if self.movecount < 3:  # need to select a predefined opening
+            if self.movecount == 0: 
+                self.currentopening = random.choice(self.openings)
+                return self.currentopening[0]
+            if self.movecount == 2:
+                return self.currentopening[1]
+            else:
+                return random.choice(self.defenses)
+        else:
+            bestscore, bestmove = self.findbestscoremove(self.board,whoseturn, whoseturn,3)  
+        return random.choice(bestmove)      
+            
+        
+    def findscoreforonepiece(self, board, sourcex, sourcey, whoseturninthegame, whosemoveintheanalysis, level):
+        # finds the best score for one piece
+        # Doing this so we give the UI a chance to update.
+        # whoseturninthegame is who will move when the chosen turn is returned
+        # whosemoveintheanalysis is whose move it is when looking ahead.
+        # level is how many levels of searching we have left
+        if level == 0:  # we are at the bottom of the tree.  Just return the score
+            return self.calculatescore(board,whoseturninthegame), []
+        bestmove = []
+        print "DAGWOOD20"
+        if whoseturninthegame == whosemoveintheanalysis:
+            bestscore = -30000  # set initial value in case we can't move
+        else:                   # if you can't move, that is bad
+            bestscore = 30000   # if your opponent can't move, that is very good.
+        whosemovenext = 'W'  # switch whose move it is
+        if whosemoveintheanalysis == 'W':
+            whosemovenext = 'B'     
+        print "DAGWOOD21"   
+        sourcecolorpiece = board[sourcey][sourcex]
+        if sourcecolorpiece[0] == whosemoveintheanalysis:
+            for destx in range(0,8):
+                for desty in range(0,8):
+                    if self.checkifmoveispossibledest(sourcex,sourcey,
+                            destx, desty, board, False): # ignore enpassant and castling to save time
+                        if not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,board):
+                            move = (sourcex, sourcey, destx, desty)
+                            #print move, level
+                            #pdb.set_trace()
+                            newboard = self.fastcopy(board) 
+                            self.updateboardinplace(sourcex,sourcey,
+                                destx,desty,newboard)
+                            score,nextmove = self.findbestscoremove(newboard,
+                                    whoseturninthegame,whosemovenext,level-1)
+                            print "DAGW score = ", score, "bestscore = ", bestscore
+                            #pdb.set_trace()
+                            if bestscore == score:
+                                bestmove.append(move)
+                            elif whoseturninthegame == whosemoveintheanalysis:
+                                if score > bestscore:
+                                    bestmove = [move]
+                                    bestscore = score
+                            else:
+                                if score < bestscore:
+                                    bestmove = [move]
+                                    bestscore = score
+        print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level   
+        if len(bestmove) > 1:
+            bestmove = random.choice(bestmove)
+        elif len(bestmove) == 1:
+            bestmove = bestmove[0]                             
+        return bestscore, bestmove  
+             
+        
+        
+    def findbestscoremove(self,board, whoseturninthegame, whosemoveintheanalysis, level):
+        # whoseturninthegame is who will move when the chosen turn is returned
+        # whosemoveintheanalysis is whose move it is when looking ahead.
+        # level is how many levels of searching we have left
+        if level == 0:  # we are at the bottom of the tree.  Just return the score
+            return self.calculatescore(board,whoseturninthegame), []
+        bestmove = []
+        if whoseturninthegame == whosemoveintheanalysis:
+            bestscore = -30000  # set initial value in case we can't move
+        else:                   # if you can't move, that is bad
+            bestscore = 30000   # if your opponent can't move, that is very good.
+        whosemovenext = 'W'  # switch whose move it is
+        if whosemoveintheanalysis == 'W':
+            whosemovenext = 'B'        
+        for sourcex in range(0,8):
+            for sourcey in range(0,8):
+                sourcecolorpiece = board[sourcey][sourcex]
+                if sourcecolorpiece[0] == whosemoveintheanalysis:
+                    for destx in range(0,8):
+                        for desty in range(0,8):
+                            if self.checkifmoveispossibledest(sourcex,sourcey,
+                                   destx, desty, board, False): # ignore enpassant and castling to save time
+                                if not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,board):
+                                    move = (sourcex, sourcey, destx, desty)
+                                    print move, level
+                                    #pdb.set_trace()
+                                    newboard = self.fastcopy(board) 
+                                    self.updateboardinplace(sourcex,sourcey,
+                                       destx,desty,newboard)
+                                    score,nextmove = self.findbestscoremove(newboard,
+                                           whoseturninthegame,whosemovenext,level-1)
+                                    print "score = ", score, "bestscore = ", bestscore
+                                    #pdb.set_trace()
+                                    if bestscore == score:
+                                        bestmove.append(move)
+                                    elif whoseturninthegame == whosemoveintheanalysis:
+                                        if score > bestscore:
+                                            bestmove = [move]
+                                            bestscore = score
+                                    else:
+                                        if score < bestscore:
+                                            bestmove = [move]
+                                            bestscore = score
+        print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level                                
+        return bestscore, bestmove  
+ 
+        
                          
 if __name__ == '__main__':
+    import time
+    import cProfile
     cb = ChessEngine()  
-    cb.printboard()
+    cb.printboard(cb.board)
+    cb.makevalidmove(4,1,4,3)
+    cb.makevalidmove(4,6,4,5)
+    cb.makevalidmove(4,3,4,4)
+    cb.makevalidmove(3,7,7,3)
+    cb.makevalidmove(7,3,7,2)
+    
     pdb.set_trace()
     print cb.checkifmoveispossibledest(6,0,7,2,cb.board,True)
     print cb.checkifincheck('B',cb.board)
     
-    cb.printboard()
-    print "move the knight"
+    cb.printboard(cb.board)
+    """print "move the knight"
     cb.updateboardinplace(1,0,0,2,cb.board)
-    cb.printboard()
+    cb.updateboardinplace(0,2,1,4,cb.board)
+    cb.updateboardinplace(0,6,0,4,cb.board)
+    cb.updateboardinplace(0,4,0,3,cb.board)
+    cb.updateboardinplace(0,3,0,2,cb.board)"""
+    
+    cb.updateboardinplace(4,6,4,4,cb.board)
+    cb.updateboardinplace(5,7,2,4,cb.board)
+    cb.updateboardinplace(3,7,7,3,cb.board)
+
+    cb.printboard(cb.board)
     print cb.wouldmoveexposecheck(3,1,3,2,cb.board)
-    cb.printboard()
+    cb.board[0][0] = '00'
+    cb.printboard(cb.board)
+    print cb.calculatescore(cb.board,'W')
+    print cb.calculatescore(cb.board,'B')
+    #pdb.set_trace()
+    time1 = time.time()
+    print cb.findbestscoremove(cb.board,'W','W',1)
+    time2 = time.time()
+    print "took ", time2-time1, "seconds"
+    print cb.findbestscoremove(cb.board,'W','W',2)
+    time3 = time.time()
+    print "took ", time3-time2, "seconds"
+    print cb.findbestscoremove(cb.board,'W','W',3)
+    time4 = time.time()
+    print "took ", time4-time3, "seconds"
+    print cb.getcomputermove('W')
+ 
+
+    #pdb.set_trace()
