@@ -19,7 +19,7 @@ class BlindChessRoot(BoxLayout):
         self.ids["messageW"].text = 'Your Move'
         self.ids["messageB"].text = 'Black Move'
         self.setcancelandmovebuttons('cancel','move')
-        self.blind = 0    # 1 means blind.  0 means show the pieces  
+        self.blind = 1    # 1 means blind.  0 means show the pieces  
         self.sourcex = -1  # set the source and destination to none
         self.sourcey = -1 
         self.destx = -1
