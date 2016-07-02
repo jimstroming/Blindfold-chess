@@ -460,12 +460,10 @@ class ChessEngine(object):
             for y in range(0,8):
                 colorpiece = board[y][x]
                 score = self.piecescore[colorpiece]
-                if score == 1:
+                if score == 1 or score == -1:
                     if colorpiece[0] == 'W': score = self.whitepawnvaluebyrow[y]
                     else: score = self.blackpawnvaluebyrow[y]
                 totalscore += score
-                #print totalscore
-                #pdb.set_trace()
         if whoseturninthegame == 'W':
             return totalscore 
         else:
@@ -598,7 +596,7 @@ if __name__ == '__main__':
     cb.makevalidmove(3,7,7,3)
     cb.makevalidmove(7,3,7,2)
     
-    pdb.set_trace()
+    #pdb.set_trace()
     print cb.checkifmoveispossibledest(6,0,7,2,cb.board,True)
     print cb.checkifincheck('B',cb.board)
     
@@ -614,7 +612,30 @@ if __name__ == '__main__':
     cb.updateboardinplace(5,7,2,4,cb.board)
     cb.updateboardinplace(3,7,7,3,cb.board)
 
-    cb.printboard(cb.board)
+
+    for x in range(0,8):
+        for y in range(0,8):
+            cb.board[y][x] = '00'  # clear the board.
+            
+    # populate it with a pattern where the computer is being unaggressive
+    
+    cb.board[0][4]='WK'
+    cb.board[3][6]='BN'
+    cb.board[4][7]='BQ'
+    cb.board[5][5]='BP'
+    cb.board[5][4]='BP'
+    cb.board[5][3]='BP'
+    cb.board[6][3]='BB'
+    cb.board[6][2]='BK'
+    cb.board[6][1]='BP'
+    cb.board[6][0]='BP'
+    cb.board[7][1]='BR'
+    cb.board[7][5]='BR'
+    
+    pdb.set_trace()
+
+
+    """cb.printboard(cb.board)
     print cb.wouldmoveexposecheck(3,1,3,2,cb.board)
     cb.board[0][0] = '00'
     cb.printboard(cb.board)
@@ -631,7 +652,7 @@ if __name__ == '__main__':
     print cb.findbestscoremove(cb.board,'W','W',3)
     time4 = time.time()
     print "took ", time4-time3, "seconds"
-    print cb.getcomputermove('W')
+    print cb.getcomputermove('W')"""
  
 
     #pdb.set_trace()
