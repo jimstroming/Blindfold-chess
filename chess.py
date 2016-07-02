@@ -86,8 +86,8 @@ class ChessEngine(object):
                          [[4,1,4,3],[5,1,5,3]],   # 1. e4 2. f4       - King's Gambit
                          [[3,1,3,3],[2,1,2,3]]]   # 1. d4 2. c4       - Queen's Gambit
 
-        self.defenses = [[[6,6,6,5]],             # 1. g6
-                         [[3,6,3,5]]]             # 1. d6
+        self.defenses = [[6,6,6,5],             # 1. g6
+                         [3,6,3,5]]            # 1. d6
 
         self.cpusourcex = 0    # the piece the cpu will search next
         self.cpusourcey = 0
