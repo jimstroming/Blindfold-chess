@@ -67,7 +67,7 @@ class ChessEngine(object):
                             }  
                             
         self.whitepawnvaluebyrow = [1,1,1.1,1.2,1.6,2.3,2.5,9]
-        self.blackpawnvaluebyrow = [9,2.5,2.3,1.6,1.2,1.1,1,1]                              
+        self.blackpawnvaluebyrow = [-9,-2.5,-2.3,-1.6,-1.2,-1.1,-1,-1]                              
                          
         self.pawntopromote = [] # x,y location of the pawn that needs
                                 # to be promoted 
