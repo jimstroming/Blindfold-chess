@@ -240,7 +240,12 @@ class BlindChessRoot(BoxLayout):
         move = self.chessengine.getcomputermoveincremental(whosemove)
         print "DAGWOOD60 move = ", move
         if move == 'resign':
-            pass   # NEED TO ADD RESIGNATION CODE
+            self.state = 'CPU resigns'
+            if self.whosemove == 'B':  message = "BLACK RESIGNS"
+            else: message = "WHITE RESIGNS"
+            self.updatebothmessages(message, self.whosemove)   # change the message to BLACK or WHITE RESIGNS
+            self.setallfontsonecolor((0,0,1,1))  # set the fonts to green
+            return   # user will need to reset the board to exit this state.
         if move == False:
             Clock.schedule_once(self.cpumove,0.1)
             return
