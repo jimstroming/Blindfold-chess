@@ -292,7 +292,9 @@ class BlindChessRoot(BoxLayout):
             # check for pawn promotion
             x,y = self.chessengine.checkforpawnpromotion(self.whosemove)
             if x != -1:
-                promoteprawn(self, self.whosemove, 'Q')
+                self.promotex = x
+                self.promotey = y
+                self.promoteprawn(self.whosemove, 'Q')
             else:
                 print "DAGWOD85"
                 self.updatebothmessages(self.movestring,self.whosemove)
