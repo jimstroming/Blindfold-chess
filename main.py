@@ -233,6 +233,9 @@ class BlindChessRoot(BoxLayout):
             self.whosemove = 'B'
         self.setwidgetbackgroundcolors()
         self.resetaftermove()
+        if self.chessengine.checkifincheck(self.whosemove,self.chessengine.board):
+            self.setallfontsonecolor((0,0,1,1)) # turn the fonts blue if in check        
+
     
     def cpumove(self,dt):
         whosemove = self.whosemove
