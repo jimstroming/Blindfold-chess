@@ -5,7 +5,6 @@ class ChessEngine(object):
     # white on bottom, black on top
    
     def __init__(self):
-        allqueen = ['WQ','WQ','WQ','WQ','Wk','WQ','WQ','WQ']
         firstrow = ['Wr','WN','WB','WQ','Wk','WB','WN','Wr'] # r is a R that hasn't moved
         wpawnrow = ['Wp','Wp','Wp','Wp','Wp','Wp','Wp','Wp'] # p is a P that hasn't moved
         blnkrow2 = ['00','00','00','00','00','00','00','00']
@@ -14,7 +13,7 @@ class ChessEngine(object):
         blnkrow5 = ['00','00','00','00','00','00','00','00']
         bpawnrow = ['Bp','Bp','Bp','Bp','Bp','Bp','Bp','Bp']
         lastrow  = ['Br','BN','BB','BQ','Bk','BB','BN','Br'] # k is a K that hasn't moved
-        self.board = [allqueen, wpawnrow, blnkrow2, blnkrow3,
+        self.board = [firstrow, wpawnrow, blnkrow2, blnkrow3,
                      blnkrow4, blnkrow5, bpawnrow, lastrow]
                      
         self.moverules = {'WR':[[0,7],[0,-7],[7,0],[-7,0]],
