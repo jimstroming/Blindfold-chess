@@ -173,7 +173,7 @@ class ChessEngine(object):
         return not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,self.board)
         
     def makevalidmove(self,sourcex, sourcey, destx, desty):
-        print "DAGWOOD"
+        #print "DAGWOOD"
         colorpiece = self.board[sourcey][sourcex]
         self.updateboardinplace(sourcex,sourcey,destx,desty,self.board)  
         # set the en passant flag if necessary and clear the other 
@@ -395,7 +395,6 @@ class ChessEngine(object):
         
     
     def getcomputermoveincremental(self,whoseturn):
-        print "DAGWOOD30"
         scoredone = False
         if self.movecount < 3:  # need to select a predefined opening
             if self.movecount == 0: 
@@ -408,7 +407,6 @@ class ChessEngine(object):
         else:
            loopcontinue = True
            while (loopcontinue == True):
-               print "DAGWOOD1"
                sourcecolorpiece = self.board[self.cpusourcey][self.cpusourcex]
                if sourcecolorpiece[0] == whoseturn:
                    loopcontinue = False
@@ -423,10 +421,8 @@ class ChessEngine(object):
            # we now have the piece we want to search, or are out of pieces.
            if not scoredone:
                level = 2
-               print "DAGWOOD2 level = ", level
                score, move = self.findscoreforonepiece(self.board, self.cpusourcex, 
                                      self.cpusourcey, whoseturn, whoseturn, level)
-               print "DAGWOOD3"
                if self.bestscore < score:
                    self.bestscore = score
                    self.bestmove = move
@@ -492,7 +488,6 @@ class ChessEngine(object):
         if level == 0:  # we are at the bottom of the tree.  Just return the score
             return self.calculatescore(board,whoseturninthegame), []
         bestmove = []
-        print "DAGWOOD20"
         if whoseturninthegame == whosemoveintheanalysis:
             bestscore = -30000  # set initial value in case we can't move
         else:                   # if you can't move, that is bad
@@ -500,7 +495,6 @@ class ChessEngine(object):
         whosemovenext = 'W'  # switch whose move it is
         if whosemoveintheanalysis == 'W':
             whosemovenext = 'B'     
-        print "DAGWOOD21"   
         sourcecolorpiece = board[sourcey][sourcex]
         if sourcecolorpiece[0] == whosemoveintheanalysis:
             for destx in range(0,8):
@@ -516,7 +510,6 @@ class ChessEngine(object):
                                 destx,desty,newboard)
                             score,nextmove = self.findbestscoremove(newboard,
                                     whoseturninthegame,whosemovenext,level-1)
-                            print "DAGW score = ", score, "bestscore = ", bestscore
                             #pdb.set_trace()
                             if bestscore == score:
                                 bestmove.append(move)
@@ -528,7 +521,7 @@ class ChessEngine(object):
                                 if score < bestscore:
                                     bestmove = [move]
                                     bestscore = score
-        print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level   
+        #print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level   
         if len(bestmove) > 1:
             bestmove = random.choice(bestmove)
         elif len(bestmove) == 1:
@@ -561,15 +554,12 @@ class ChessEngine(object):
                                    destx, desty, board, False): # ignore enpassant and castling to save time
                                 if not self.wouldmoveexposecheck(sourcex,sourcey,destx,desty,board):
                                     move = (sourcex, sourcey, destx, desty)
-                                    print move, level
-                                    #pdb.set_trace()
                                     newboard = self.fastcopy(board) 
                                     self.updateboardinplace(sourcex,sourcey,
                                        destx,desty,newboard)
                                     score,nextmove = self.findbestscoremove(newboard,
                                            whoseturninthegame,whosemovenext,level-1)
-                                    print "score = ", score, "bestscore = ", bestscore
-                                    #pdb.set_trace()
+                                    #print "score = ", score, "bestscore = ", bestscore
                                     if bestscore == score:
                                         bestmove.append(move)
                                     elif whoseturninthegame == whosemoveintheanalysis:
@@ -580,7 +570,7 @@ class ChessEngine(object):
                                         if score < bestscore:
                                             bestmove = [move]
                                             bestscore = score
-        print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level                                
+        #print "bestscore =", bestscore, "bestmove =", bestmove, "level =", level                                
         return bestscore, bestmove  
  
         

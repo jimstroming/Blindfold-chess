@@ -236,18 +236,19 @@ class BlindChessRoot(BoxLayout):
         if self.chessengine.checkifincheck(self.whosemove,self.chessengine.board):
             self.setallfontsonecolor((0,0,1,1)) # turn the fonts blue if in check        
 
+    def resign(self):
+        self.state = 'CPU resigns'
+        if self.whosemove == 'B':  message = "BLACK RESIGNS"
+        else: message = "WHITE RESIGNS"
+        self.updatebothmessages(message, self.whosemove)   # change the message to BLACK or WHITE RESIGNS
+        self.setallfontsonecolor((0,1,0,1))  # set the fonts to green
+        
     
     def cpumove(self,dt):
         whosemove = self.whosemove
-        print "DAGWOOD59"
         move = self.chessengine.getcomputermoveincremental(whosemove)
-        print "DAGWOOD60 move = ", move
         if move == 'RESIGN':
-            self.state = 'CPU resigns'
-            if self.whosemove == 'B':  message = "BLACK RESIGNS"
-            else: message = "WHITE RESIGNS"
-            self.updatebothmessages(message, self.whosemove)   # change the message to BLACK or WHITE RESIGNS
-            self.setallfontsonecolor((0,1,0,1))  # set the fonts to green
+            self.resign()
             return   # user will need to reset the board to exit this state.
         if move == False:
             Clock.schedule_once(self.cpumove,0.1)
@@ -270,7 +271,6 @@ class BlindChessRoot(BoxLayout):
        
 
     def cpu_select_dest(self,dt):
-        print "DAGWOOD70"
         buttonid = "but"+str(self.destx)+str(self.desty)     
         if self.whosemove == 'W':
             self.ids[buttonid].background_color = self.purewhite
@@ -280,13 +280,10 @@ class BlindChessRoot(BoxLayout):
         Clock.schedule_once(self.cpu_makethemove, 1)  
         
     def cpu_makethemove(self,dt):
-        print "DAGWOOD80"
         # check if the move is legal
         validmove = self.chessengine.checkifvalidmove(self.whosemove, self.sourcex, 
                                     self.sourcey, self.destx, self.desty)
-        print "DAGWOOD81"
         if validmove:  
-            print "DAGWOOD82"
             self.movestring = self.chessengine.getmovenotation(self.sourcex, self.sourcey, 
                             self.destx, self.desty) # get the move notation
             self.chessengine.makevalidmove(self.sourcex, self.sourcey, 
@@ -299,7 +296,6 @@ class BlindChessRoot(BoxLayout):
                 self.promotey = y
                 self.promoteprawn(self.whosemove, 'Q')
             else:
-                print "DAGWOD85"
                 self.updatebothmessages(self.movestring,self.whosemove)
                 if self.whosemove == 'B': # switch the players turn
                     self.whosemove = 'W'
@@ -310,8 +306,8 @@ class BlindChessRoot(BoxLayout):
                 if self.chessengine.checkifincheck(self.whosemove,self.chessengine.board):
                     self.setallfontsonecolor((0,0,1,1)) # turn the fonts blue if in check        
         else:
-            pass # go to resign state (NEED TO ADD)
-        
+            self.resign()
+
 
        
         
