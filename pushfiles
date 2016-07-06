@@ -1,4 +1,4 @@
 adb push chess.py /storage/emulated/0/kivy/blindchess/.
 adb push blindchess.kv /storage/emulated/0/kivy/blindchess/.
 adb push main.py /storage/emulated/0/kivy/blindchess/.
-
+adb push android.txt /storage/emulated/0/kivy/blindchess/.
