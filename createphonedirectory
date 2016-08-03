@@ -1,0 +1,1 @@
+adb shell mkdir /storage/emulated/0/kivy/blindchess 
