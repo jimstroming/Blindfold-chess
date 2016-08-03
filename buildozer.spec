@@ -28,7 +28,8 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 1.0
+
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
@@ -42,10 +43,17 @@ requirements = kivy
 #garden_requirements =
 
 # (str) Presplash of the application
+<<<<<<< HEAD
 #presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
+=======
+presplash.filename = %(source.dir)s/data/chessboard.png
+
+# (str) Icon of the application
+icon.filename = %(source.dir)s/data/blindfold.png
+>>>>>>> d5746c304ca358eef612cf0f68531d6f5df8873a
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait
@@ -176,7 +184,11 @@ android.ndk = 9c
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
+<<<<<<< HEAD
 log_level = 2
+=======
+log_level = 0
+>>>>>>> d5746c304ca358eef612cf0f68531d6f5df8873a
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
